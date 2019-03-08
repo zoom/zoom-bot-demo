@@ -11,7 +11,7 @@ const multer = require('multer');
 const errorHandler = require('errorhandler');
 const clientID = 'nKZmSkNSSXOxFcVCtB0jaA';
 const clientSecret = 'cI9PraeqEXzNM0mSYpIh7LHWW9kkJurQ';
-const redirectUrl = 'https://063ccfe9.ngrok.io/oauth/';
+const redirectUrl = 'https://82e215bd.ngrok.io/oauth/';
 
 
 
@@ -226,10 +226,33 @@ else if(req.body.payload.cmd==="Translate"){
   ]
 }
 }
+else if(req.body.payload.cmd==="Link Message"){
+
+  console.log("we are at 231");
+  contents={
+  "head": {
+    "text": "This message shows links",
+    "style": {
+      "color": "#000",
+      "bold": true
+    },
+    "subHead": {
+      "text": "Gives info on links"
+    }
+  },
+  "body": [
+   {
+     "type": "message",
+     "text": "Shows the link feature",
+     "link": "www.zoom.us"
+   }
+ ]
+}
+}
 
 else if(req.body.payload.cmd==="Show"){
 
-  console.log("we are at 208");
+  console.log("we are at 232");
   contents={
   "head": {
     "text": "This is a sample rich message",
@@ -247,25 +270,20 @@ else if(req.body.payload.cmd==="Show"){
   "limit": 4,
   "items": [
     {
-      "text": "Translate",
+      "text": "Button 1",
       "event_id": "Comment_ID",
       "event": "sendMsg"
     },
     {
-      "text": "Secondary",
+      "text": "Button 2",
       "event_id": "Comment_ID2",
       "event": "sendMsg"
     },
     {
-      "text": "Action1",
+      "text": "Button 3",
       "event_id": "Comment_ID3",
       "event": "sendMsg"
     },
-    {
-      "text": "Action2",
-      "event_id": "Comment_ID4",
-      "event": "sendMsg"
-    }
   ]
 }
     ]
