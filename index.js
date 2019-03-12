@@ -11,7 +11,7 @@ const multer = require('multer');
 const errorHandler = require('errorhandler');
 const clientID = 'nKZmSkNSSXOxFcVCtB0jaA';
 const clientSecret = 'cI9PraeqEXzNM0mSYpIh7LHWW9kkJurQ';
-const redirectUrl = 'https://82e215bd.ngrok.io/oauth/';
+const redirectUrl = 'https://3a1d72a0.ngrok.io/oauth/';
 
 
 
@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
     //if there is a code, it most likely means they were redirected here from zoom oauth screen
     if (req.query.code) {
 
-        let url = 'https://dev.zoom.us/oauth/token?grant_type=authorization_code&code=' + req.query.code + '&redirect_uri=' + redirectUrl;
+        let url = 'https://api.zoom.us/oauth/token?grant_type=authorization_code&code=' + req.query.code + '&redirect_uri=' + redirectUrl;
 
         //STEP 3
         //we need to exchange the code for a oauth token
@@ -49,7 +49,7 @@ app.get('/', (req, res) => {
 
                 //STEP 4
                 //we can now use the access token to make API calls
-                request.get('https://dev.zoom.us/v2/users/me', function (error, response, body) {
+                request.get('https://api.zoom.us/v2/users/me', function (error, response, body) {
                     if(error){
                         console.log('Error in API ', error)
                     }else{
@@ -72,7 +72,7 @@ app.get('/', (req, res) => {
 
     //STEP 2
     //no code provided, so redirect the user to get the code
-    res.redirect('https://dev.zoom.us/oauth/authorize?response_type=code&client_id=' + clientID + '&redirect_uri=' + redirectUrl);
+    res.redirect('https://api.zoom.us/oauth/authorize?response_type=code&client_id=' + clientID + '&redirect_uri=' + redirectUrl);
 });
 
 
@@ -80,7 +80,7 @@ app.get('/oauth',function(req,res){
 console.log(req.query);
 var code=req.query.code;
 request({
-    url: "https://dev.zoom.us/oauth/token",
+    url: "https://api.zoom.us/oauth/token",
     json: {
       grant_type: "authorization_code",
       code:code,client_id:clientID,
@@ -118,7 +118,7 @@ function callback(res,access_token){
       "bold": true
     },
     "subHead": {
-      "text": "Author name or system message 4:35pm"
+      "text": "This is a imple message"
     }
   },
   "body": [
@@ -128,7 +128,7 @@ function callback(res,access_token){
     }
   ]
 }
-  var options = { method: 'POST',
+/*  var options = { method: 'POST',
                   url: 'https://dev.zoom.us/v2/im/chat/messages',
                   headers: {
                             Authorization: 'Bearer ' + access_token,
@@ -154,18 +154,19 @@ function callback(res,access_token){
 
   })
 
-
+*/
 
 }
 
+//Configuring the "help" command
 
 
 app.post('/handleMessage',function(req,res){
-  console.log("we are here");
+  console.log("we in help");
 var contents={"Code":400,"Message":"Please input a valid option"};
 if(req.body.payload.cmd==="help"){
 
-  console.log("we are at 168");
+  console.log("we are within help");
 
   contents={
   "head": {
@@ -191,7 +192,7 @@ if(req.body.payload.cmd==="help"){
           "text": "Update",
           "event_id": "update",
           "event": "sendMsg(\"/ZoomDemo update\")",
-          "link": "https://dev.zoom.us"
+          "link": "https://api.zoom.us"
         },
         {
           "text": "Delete",
@@ -203,9 +204,12 @@ if(req.body.payload.cmd==="help"){
   ]
 }
 }
+
+
+//Configuring the "translate" command
 else if(req.body.payload.cmd==="Translate"){
 
-  console.log("we are at 208");
+  console.log("we are in translate");
   contents={
   "head": {
     "text": "This translates the string",
@@ -226,9 +230,13 @@ else if(req.body.payload.cmd==="Translate"){
   ]
 }
 }
-else if(req.body.payload.cmd==="Link Message"){
 
-  console.log("we are at 231");
+
+//Configuring the "link" command. This command displays an example for link.
+
+else if(req.body.payload.cmd==="links"){
+
+  console.log("we are in links");
   contents={
   "head": {
     "text": "This message shows links",
@@ -250,18 +258,58 @@ else if(req.body.payload.cmd==="Link Message"){
 }
 }
 
-else if(req.body.payload.cmd==="Show"){
 
-  console.log("we are at 232");
+//Configuring the "form" command. This command displays an example using Form.
+
+else if(req.body.payload.cmd=== "form"){
+
+  console.log("we are in form");
   contents={
   "head": {
-    "text": "This is a sample rich message",
+    "text": "This message shows using fields for form like look",
     "style": {
       "color": "#000",
       "bold": true
     },
     "subHead": {
-      "text": "This displays the tich buttons"
+      "text": "Gives info on forms"
+    }
+  },
+  "body": [
+   {
+     "type": "fields",
+     "items": [
+       {
+         "key": "China",
+         "value": "CN"
+       },
+       {
+         "key": "USA",
+         "value": "US",
+         "link": "https://zoom.us"
+       }
+     ]
+   }
+ ]
+}
+}
+
+
+
+//Configuring the "buttons" command. This command displays an example of buttons command.
+
+else if(req.body.payload.cmd==="buttons"){
+
+  console.log("we are in buttons");
+  contents={
+  "head": {
+    "text": "This is a sample rich message displaying buttons",
+    "style": {
+      "color": "#000",
+      "bold": true
+    },
+    "subHead": {
+      "text": "This displays the rich buttons"
     }
   },
   "body": [
@@ -314,7 +362,7 @@ else{
 
 
   var options = { method: 'POST',
-                  url: 'https://dev.zoom.us/v2/im/chat/messages',
+                  url: 'https://api.zoom.us/v2/im/chat/messages',
                   headers: {
                             Authorization: 'Bearer ' + access_token,
                             'Content-Type': 'application/json'
