@@ -88,13 +88,13 @@ request({
       grant_type: "authorization_code",
       code:code,client_id:clientID,
       client_secret:clientSecret,
-      redirect_uri:"http://localhost:2525/oauth/"
+      redirect_uri:"https://3a1d72a0.ngrok.io/oauth/"
     },
     form: {
       grant_type: "authorization_code",
       code:code,client_id:clientID,
       client_secret:clientSecret,
-      redirect_uri:"http://localhost:2525/oauth/"
+      redirect_uri:"https://3a1d72a0.ngrok.io/oauth/"
     },
     headers: {
         'Accept': 'application/json',
