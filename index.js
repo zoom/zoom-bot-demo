@@ -33,7 +33,9 @@ app.get('/', (req, res) => {
     //if there is a code, it most likely means they were redirected here from zoom oauth screen
     if (req.query.code) {
 
-        let url = 'https://api.zoom.us/oauth/token?grant_type=authorization_code&code=' + req.query.code + '&redirect_uri=' + redirectUrl;
+
+
+        let url = 'https://dev.zoom.us/oauth/token?grant_type=authorization_code&code=' + req.query.code + '&redirect_uri=' + redirectUrl;
 
         //STEP 3
         //we need to exchange the code for a oauth token
@@ -49,7 +51,7 @@ app.get('/', (req, res) => {
 
                 //STEP 4
                 //we can now use the access token to make API calls
-                request.get('https://api.zoom.us/v2/users/me', function (error, response, body) {
+                request.get('https://dev.zoom.us/v2/users/me', function (error, response, body) {
                     if(error){
                         console.log('Error in API ', error)
                     }else{
@@ -63,6 +65,7 @@ app.get('/', (req, res) => {
 
             } else {
                 //handle error, something went wrong
+                console.log("this isnt working");
             }
 
         }).auth(clientID, clientSecret);
@@ -72,7 +75,7 @@ app.get('/', (req, res) => {
 
     //STEP 2
     //no code provided, so redirect the user to get the code
-    res.redirect('https://api.zoom.us/oauth/authorize?response_type=code&client_id=' + clientID + '&redirect_uri=' + redirectUrl);
+    res.redirect('https://dev.zoom.us/oauth/authorize?response_type=code&client_id=' + clientID + '&redirect_uri=' + redirectUrl);
 });
 
 
@@ -80,7 +83,7 @@ app.get('/oauth',function(req,res){
 console.log(req.query);
 var code=req.query.code;
 request({
-    url: "https://api.zoom.us/oauth/token",
+    url: "https://dev.zoom.us/oauth/token",
     json: {
       grant_type: "authorization_code",
       code:code,client_id:clientID,
@@ -152,25 +155,25 @@ function callback(res,access_token){
       res.send({"Status":"sent"});
     }
 
-  })
+  })*/
 
-*/
+
 
 }
 
-//Configuring the "help" command
+//Configuring the "help" command.
 
 
 app.post('/handleMessage',function(req,res){
   console.log("we in help");
 var contents={"Code":400,"Message":"Please input a valid option"};
-if(req.body.payload.cmd==="help"){
+if(req.body.payload.cmd=="help"){
 
   console.log("we are within help");
 
   contents={
   "head": {
-    "text": "Help Tab",
+    "text": "Help Tab, This also demo's buttons",
     "style": {
       "color": "#000",
       "bold": true
@@ -181,10 +184,6 @@ if(req.body.payload.cmd==="help"){
   },
   "body": [
     {
-      "type": "message",
-      "text": "This is a sample Zoom Rich Message Demo bot"
-    },
-    {
       "type": "actions",
       "limit": 2,
       "items": [
@@ -192,7 +191,7 @@ if(req.body.payload.cmd==="help"){
           "text": "Update",
           "event_id": "update",
           "event": "sendMsg(\"/ZoomDemo update\")",
-          "link": "https://api.zoom.us"
+          "link": "https://dev.zoom.us"
         },
         {
           "text": "Delete",
@@ -207,7 +206,7 @@ if(req.body.payload.cmd==="help"){
 
 
 //Configuring the "translate" command
-else if(req.body.payload.cmd==="Translate"){
+else if(req.body.payload.cmd=="Translate"){
 
   console.log("we are in translate");
   contents={
@@ -234,7 +233,7 @@ else if(req.body.payload.cmd==="Translate"){
 
 //Configuring the "link" command. This command displays an example for link.
 
-else if(req.body.payload.cmd==="links"){
+else if(req.body.payload.cmd=="links"){
 
   console.log("we are in links");
   contents={
@@ -261,7 +260,7 @@ else if(req.body.payload.cmd==="links"){
 
 //Configuring the "form" command. This command displays an example using Form.
 
-else if(req.body.payload.cmd=== "form"){
+else if(req.body.payload.cmd== "form"){
 
   console.log("we are in form");
   contents={
@@ -298,43 +297,43 @@ else if(req.body.payload.cmd=== "form"){
 
 //Configuring the "buttons" command. This command displays an example of buttons command.
 
-else if(req.body.payload.cmd==="buttons"){
+else if(req.body.payload.cmd=="multiple"){
 
-  console.log("we are in buttons");
+  console.log("we are in multiple");
   contents={
-  "head": {
-    "text": "This is a sample rich message displaying buttons",
-    "style": {
-      "color": "#000",
-      "bold": true
-    },
-    "subHead": {
-      "text": "This displays the rich buttons"
-    }
+    "head": {
+    "text": "This is a new message head"
   },
   "body": [
-      {
-  "type": "actions",
-  "limit": 4,
-  "items": [
     {
-      "text": "Button 1",
-      "event_id": "Comment_ID",
-      "event": "sendMsg"
+      "type": "message",
+      "text": "This is message body simple message"
     },
     {
-      "text": "Button 2",
-      "event_id": "Comment_ID2",
-      "event": "sendMsg"
+      "type": "message",
+      "text": "this is a message with a new style",
+      "style": {
+        "color": "#CCCCCC",
+        "bold": true
+      }
     },
     {
-      "text": "Button 3",
-      "event_id": "Comment_ID3",
-      "event": "sendMsg"
+      "type": "message",
+      "text": "This is message 2"
     },
+    {
+      "type": "message",
+      "text": "This is a message with a different color",
+      "style": {
+        "color": "#FFA500",
+        "bold": true
+      }
+    },
+    {
+      "type": "message",
+      "text": "this is message 3"
+    }
   ]
-}
-    ]
 }
 }
 
@@ -361,8 +360,8 @@ else{
 
 
 
-  var options = { method: 'POST',
-                  url: 'https://api.zoom.us/v2/im/chat/messages',
+ var options = { method: 'POST',
+                  url: 'https://dev.zoom.us/v2/im/chat/messages',
                   headers: {
                             Authorization: 'Bearer ' + access_token,
                             'Content-Type': 'application/json'
@@ -388,7 +387,6 @@ else{
       }
 
     })
-
 });
 
 
