@@ -32,8 +32,12 @@ let zoomBot = client(
   'v1prfqdonqtjw9e4urow4bca@xmppdev.zoom.us',//jid
   'OjusNewBotTest'
 ).commands(
-[{ command: 'create', description: 'create a new meeting', hint: ' <userName> <date>' }]
-[{ command: 'help', description: 'this is help', hint: 'Type a message ' }]).defaultAuth(oauth2Client.connect());
+[{ command: 'create', description: 'create a new meeting', hint: ' <userName> <date>' },
+{ command: 'buttons', description: 'this is an example of buttons', hint: 'Type a message ' },
+{ command: 'Cards', description: 'this is an example of cards', hint: 'Type a message ' },
+{ command: 'links', description: 'this is links', hint: 'Type a message ' },
+{ command: 'form', description: 'this is form', hint: 'Type a message ' },
+{ command: 'multiple', description: 'this is an example of multiple messages', hint: 'Type a message ' }]).defaultAuth(oauth2Client.connect());
 
 
 zoomBot.on('commands', function (e) {
@@ -57,23 +61,29 @@ zoomBot.on('commands', function (e) {
     });
   }
   // else if(command==='delete'){//other command logic}
-  else if (command === "help") {
+  else if (command === "buttons") {
 
-    console.log("we are within help");
+    console.log("we are within buttons");
 
     foxApp.sendMessage({
       to_jid,
       account_id,
-      body: [{limit:'2', items:[{text: 'update', event_id:'update', event:'sendMsg(\"/weather update\")'},{text: 'delete', event_id:'delete', event:'sendMsg(\"/weather delete\")'}]}], header: { text: `This is help, it shows multiple messages` }
+      body: [{type: 'actions', limit:'2', items:[{text: 'update', event_id:'update', event:'sendMsg(\"/weather update\")'},{text: 'delete', event_id:'delete', event:'sendMsg(\"/weather delete\")'}]}], header: { text: `This is help, it shows multiple messages` }
     });
 
   }
 
 
   //Configuring the "translate" command
-  else if (command === "Translate") {
+  else if (command === "cards") {
 
-    console.log("we are in translate");
+    console.log("we are in cards");
+
+    foxApp.sendMessage({
+      to_jid,
+      account_id,
+      body: { type: 'message', text: 'this is an example of cards', link: 'www.zoom.us' }, header: { text: `reply from ${name}` }
+    });
 
   }
 
@@ -83,6 +93,12 @@ zoomBot.on('commands', function (e) {
   else if (command === "links") {
 
     console.log("we are in links");
+
+    foxApp.sendMessage({
+      to_jid,
+      account_id,
+      body: { type: 'message', text: 'Zoom Video', link: 'www.zoom.us' }, header: { text: `This is an example of links` }
+    });
 
   }
 
@@ -96,7 +112,7 @@ zoomBot.on('commands', function (e) {
     foxApp.sendMessage({
       to_jid,
       account_id,
-      body: [{limit:'2', items:[{text: 'update', event_id:'update', event:'sendMsg(\"/weather update\")'},{text: 'delete', event_id:'delete', event:'sendMsg(\"/weather delete\")'}]}], header: { text: `This is help, it shows multiple messages` }
+      body: [{type: 'fields', items:[{key:'India', value: 'IND'}, { key:'United States', value: 'USA'}]}], header: { text: `This is help, it shows Form fields` }
     });
 
   }
@@ -108,6 +124,11 @@ zoomBot.on('commands', function (e) {
   else if (command === "multiple") {
 
     console.log("we are in multiple");
+    foxApp.sendMessage({
+      to_jid,
+      account_id,
+      body: [{ type: 'message', text: 'This is message with a link', link: 'https://zoom.us'}, {type: 'message', text: 'this is a message with style', style: {color: '#ff0000', bold: 'true'}}], header: { text: `This is help, it shows multiple messages` }
+    });
   }
 
   else {
