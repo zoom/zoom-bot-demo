@@ -8,15 +8,15 @@ app.use(bodyParser.json());
 
 const { oauth2, client, setting } = require('zoom-bot-sdk');
 
-const to_jid = '1eb8f00546464e86ab3fa8903e7a5c52@conference.xmppdev.zoom.us';
+const to_jid = '1eb8f00546464e86ab3fa8903e7a5c52@xmppdev.zoom.us';
 const account_id = 'Uoj5nh68RtK_C737r6XTIw';
 
 setting.setUrl('https://dev.zoom.us'); // if you are in projection,not use this.
 
 let oauth2Client = oauth2(
-  'nKZmSkNSSXOxFcVCtB0jaA', //client id
-  'cI9PraeqEXzNM0mSYpIh7LHWW9kkJurQ', //client secret
-  'http://06ba2623.ngrok.io/oauth' //redirect uri
+  '3j3xdfsIQ4eEnz0CyILVA', //client id
+  'BUekVr4S4j2lxkDWkE1HLWaV6AisoVQ6', //client secret
+  'http://8d10eb12.ngrok.io/oauth' //redirect uri
 );
 
 
@@ -27,12 +27,10 @@ oauth2Client.on('tokens',function(tokens){
 
 //create zoomBot
 let zoomBot = client(
-  'nKZmSkNSSXOxFcVCtB0jaA',//client id
-  'wtIceovcROe68qBa_NsDgQ',//verify code
-  'v1prfqdonqtjw9e4urow4bca@xmppdev.zoom.us',//jid
-  'OjusNewBotTest'
-).commands(
-[{ command: 'create', description: 'create a new meeting', hint: ' <userName> <date>' },
+  '3j3xdfsIQ4eEnz0CyILVA',//client id
+  'mCAKaf5WTridRGWfbcX-Ng',//verify code
+  'v14h6rvt8qqqiylxhnv5gdkq@xmppdev.zoom.us',//jid
+  'OjusNewCB').commands([{ command: 'create', description: 'create a new meeting', hint: ' <userName> <date>' },
 { command: 'buttons', description: 'this is an example of buttons', hint: 'Type a message ' },
 { command: 'Cards', description: 'this is an example of cards', hint: 'Type a message ' },
 { command: 'links', description: 'this is links', hint: 'Type a message ' },
@@ -59,6 +57,7 @@ zoomBot.on('commands', function (e) {
       account_id,
       body: { type: 'message', text }, header: { text: `reply from ${name}` }
     });
+    console.log(e);
   }
   // else if(command==='delete'){//other command logic}
   else if (command === "buttons") {
@@ -68,8 +67,9 @@ zoomBot.on('commands', function (e) {
     foxApp.sendMessage({
       to_jid,
       account_id,
-      body: [{type: 'actions', limit:'2', items:[{text: 'update', event_id:'update', event:'sendMsg(\"/weather update\")'},{text: 'delete', event_id:'delete', event:'sendMsg(\"/weather delete\")'}]}], header: { text: `This is help, it shows multiple messages` }
+      body: [{type: 'actions', limit:'2', items:[{text: 'update', event_id:'update', event:'sendMsg(\"/weather update\")'},{text: 'delete', event_id:'delete', event:'sendMsg(\"/weather delete\")'}]}], header: { text: 'This is an example of buttons' }
     });
+    console.log(e);
 
   }
 
@@ -78,12 +78,14 @@ zoomBot.on('commands', function (e) {
   else if (command === "cards") {
 
     console.log("we are in cards");
+    //console.log(JSON.stringify(body));
 
     foxApp.sendMessage({
       to_jid,
       account_id,
       body: { type: 'message', text: 'this is an example of cards', link: 'www.zoom.us' }, header: { text: `reply from ${name}` }
     });
+    console.log(e);
 
   }
 
@@ -97,9 +99,9 @@ zoomBot.on('commands', function (e) {
     foxApp.sendMessage({
       to_jid,
       account_id,
-      body: { type: 'message', text: 'Zoom Video', link: 'www.zoom.us' }, header: { text: `This is an example of links` }
+      body: { type: 'message', text: 'Zoom Video', link: 'www.zoom.us', }, header: { text: `This is an example of links` }
     });
-
+     console.log(e);
   }
 
 
@@ -112,9 +114,9 @@ zoomBot.on('commands', function (e) {
     foxApp.sendMessage({
       to_jid,
       account_id,
-      body: [{type: 'fields', items:[{key:'India', value: 'IND'}, { key:'United States', value: 'USA'}]}], header: { text: `This is help, it shows Form fields` }
+      body: [{type: 'fields', items:[{key:'India', value: 'IND'}, { key:'United States', value: 'USA'}]}], header: { text: `This is an example of Form fields` }
     });
-
+     console.log(e);
   }
 
 
@@ -127,35 +129,40 @@ zoomBot.on('commands', function (e) {
     foxApp.sendMessage({
       to_jid,
       account_id,
-      body: [{ type: 'message', text: 'This is message with a link', link: 'https://zoom.us'}, {type: 'message', text: 'this is a message with style', style: {color: '#ff0000', bold: 'true'}}], header: { text: `This is help, it shows multiple messages` }
+      body: [{ type: 'message', text: 'This is message with a link', link: 'https://zoom.us'}, {type: 'message', text: 'this is a message with style', style: {color: '#ff0000', bold: 'true'}}], header: { text: `This is an example of multiple messages` }
     });
   }
 
   else {
     console.log("you are wrong ");
   }
-
+  console.log(e);
 });
 
-
-app.all('/message', function (req, res) {//get message api
-  let { body, headers } = req;
+app.all('/message',function (req, res) {//get message api
+  try{
+    let { body, headers } = req;
   //i will add help,
   zoomBot.handle({ body, headers }, function (err) {
     if (err) { console.log(err, "this is an error with /message"); }
     res.send('ok');
   });
+} catch (e){
+  res.send(e);
+}
 });
 
 
 
 
 app.get('/oauth', async function (req, res) {
+  console.log("attempting oauth");
   try {
     let connection = await oauth2Client.connectByCode(req.query.code);
     //change foxApp to current oauth2 user
     foxApp = zoomBot.create({ auth: connection });
     res.send('ok');
+    console.log("oauth complete");
   } catch (e) {
     res.send(e);
   }
