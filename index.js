@@ -41,6 +41,7 @@ let zoomBot = client(
 zoomBot.on('commands', function (e) {
   let { payload, data, type, command, message } = e;//origin message from IM is message
   let { toJid: to_jid, accountId: account_id, name } = payload;
+  var myJSON = JSON.stringify(e);
   if (command === 'create') {
     console.log("i have received the command");
     /*
@@ -55,9 +56,9 @@ zoomBot.on('commands', function (e) {
     foxApp.sendMessage({
       to_jid,
       account_id,
-      body: { type: 'message', text }, header: { text: `reply from ${name}` }
+      body: [{ type: 'message', text },{ type: 'message', text:"JSON =", style: {color: '#000080', bold: 'true'} },{ type: 'message', text:myJSON }], header: { text: `reply from ${name}` }
     });
-    console.log(e);
+    console.log("JSON =",myJSON);
   }
   // else if(command==='delete'){//other command logic}
   else if (command === "buttons") {
@@ -67,9 +68,9 @@ zoomBot.on('commands', function (e) {
     foxApp.sendMessage({
       to_jid,
       account_id,
-      body: [{type: 'actions', limit:'2', items:[{text: 'update', event_id:'update', event:'sendMsg(\"/weather update\")'},{text: 'delete', event_id:'delete', event:'sendMsg(\"/weather delete\")'}]}], header: { text: 'This is an example of buttons' }
+      body: [{type: 'actions', limit:'2', items:[{text: 'update', event_id:'update', event:'sendMsg(\"/weather update\")'},{text: 'delete', event_id:'delete', event:'sendMsg(\"/weather delete\")'}]}, { type: 'message', text:"JSON =", style: {color: '#000080', bold: 'true'} },{ type: 'message', text:myJSON }], header: { text: 'This is an example of buttons' }
     });
-    console.log(e);
+    console.log(myJSON);
 
   }
 
@@ -83,9 +84,9 @@ zoomBot.on('commands', function (e) {
     foxApp.sendMessage({
       to_jid,
       account_id,
-      body: { type: 'message', text: 'this is an example of cards', link: 'www.zoom.us' }, header: { text: `reply from ${name}` }
+      body: [{ type: 'message', text: 'this is an example of cards', link: 'www.zoom.us'},{ type: 'message', text:"JSON =", style: {color: '#000080', bold: 'true'} },{ type: 'message', text:myJSON }], header: { text: `reply from ${name}` }
     });
-    console.log(e);
+    console.log(myJSON);
 
   }
 
@@ -99,9 +100,9 @@ zoomBot.on('commands', function (e) {
     foxApp.sendMessage({
       to_jid,
       account_id,
-      body: { type: 'message', text: 'Zoom Video', link: 'www.zoom.us', }, header: { text: `This is an example of links` }
+      body: [{ type: 'message', text: 'Zoom Video', link: 'www.zoom.us'}, { type: 'message', text:"JSON =", style: {color: '#000080', bold: 'true'} },{ type: 'message', text:myJSON }], header: { text: `This is an example of links` }
     });
-     console.log(e);
+     console.log(myJSON);
   }
 
 
@@ -114,9 +115,9 @@ zoomBot.on('commands', function (e) {
     foxApp.sendMessage({
       to_jid,
       account_id,
-      body: [{type: 'fields', items:[{key:'India', value: 'IND'}, { key:'United States', value: 'USA'}]}], header: { text: `This is an example of Form fields` }
+      body: [{type: 'fields', items:[{key:'India', value: 'IND'}, { key:'United States', value: 'USA'}]},{ type: 'message', text:"JSON =", style: {color: '#000080', bold: 'true'} }, { type: 'message', text:myJSON }], header: { text: `This is an example of Form fields` }
     });
-     console.log(e);
+     console.log(myJSON);
   }
 
 
@@ -129,14 +130,21 @@ zoomBot.on('commands', function (e) {
     foxApp.sendMessage({
       to_jid,
       account_id,
-      body: [{ type: 'message', text: 'This is message with a link', link: 'https://zoom.us'}, {type: 'message', text: 'this is a message with style', style: {color: '#ff0000', bold: 'true'}}], header: { text: `This is an example of multiple messages` }
+      body: [{ type: 'message', text: 'This is message with a link', link: 'https://zoom.us'}, {type: 'message', text: 'this is a message with style', style: {color: '#ff0000', bold: 'true'}},{ type: 'message', text:"JSON =", style: {color: '#000080', bold: 'true'} }, { type: 'message', text:myJSON }], header: { text: `This is an example of multiple messages` }
     });
+    console.log(myJSON);
   }
 
   else {
     console.log("you are wrong ");
+    foxApp.sendMessage({
+      to_jid,
+      account_id,
+      body: [{ type: 'message', text: 'You typed a wrong command'}, { type: 'message', text:"JSON =", style: {color: '#000080', bold: 'true'} },{ type: 'message', text:myJSON }], header: { text: `Your Life is a lie` }
+    });
+    console.log(myJSON);
   }
-  console.log(e);
+
 });
 
 app.all('/message',function (req, res) {//get message api
