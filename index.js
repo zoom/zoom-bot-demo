@@ -3,20 +3,21 @@ var express = require('express');
 let http = require('http');
 var bodyParser = require("body-parser");
 let app = express();
-app.use(express.static('./TranslateBot/test.html'));
+app.use(express.static('./test'));
 app.use(bodyParser.json());
+//let config = require('./config');
 
 const { oauth2, client, setting } = require('zoom-bot-sdk');
 
-const to_jid = '1eb8f00546464e86ab3fa8903e7a5c52@xmppdev.zoom.us';
-const account_id = 'Uoj5nh68RtK_C737r6XTIw';
+const to_jid = '8a9e9742c71a4371829d2acc1b24f646@conference.xmpp.zoom.us';//config.to_jid;
+const account_id = 'J5yuBxbFT0iKHvOh1iR3Rg';//config.account_id;
 
-setting.setUrl('https://dev.zoom.us'); // if you are in projection,not use this.
+//setting.setUrl('https://api.zoom.us'); // if you are in projection,not use this.
 
 let oauth2Client = oauth2(
-  '3j3xdfsIQ4eEnz0CyILVA', //client id
-  'BUekVr4S4j2lxkDWkE1HLWaV6AisoVQ6', //client secret
-  'http://8d10eb12.ngrok.io/oauth' //redirect uri
+  'ZnUJ7AzsQcMextlR476nA',//config.clientID, //client id
+  'qI5DF9NI2Cv0T44OU0RvcedRZjPOLAG3',//config.clientSecret, //client secret
+  'http://87f65a16.ngrok.io/oauth',//config.redirect_uri //redirect uri
 );
 
 
@@ -27,10 +28,10 @@ oauth2Client.on('tokens',function(tokens){
 
 //create zoomBot
 let zoomBot = client(
-  '3j3xdfsIQ4eEnz0CyILVA',//client id
-  'mCAKaf5WTridRGWfbcX-Ng',//verify code
-  'v14h6rvt8qqqiylxhnv5gdkq@xmppdev.zoom.us',//jid
-  'OjusNewCB').commands([{ command: 'create', description: 'create a new meeting', hint: ' <userName> <date>' },
+  'ZnUJ7AzsQcMextlR476nA',//config.clientID,//client id
+  'PBBR9irlQHGVWSg5qJEbGQ',//config.verifyCode,//verify code
+  'v1kjx3qifwsfiso712lsobba@xmpp.zoom.us',//config.botJid,//jid
+  'ZoomChatbot1').commands([{ command: 'create', description: 'create a new meeting', hint: ' <userName> <date>' },
 { command: 'buttons', description: 'this is an example of buttons', hint: 'Type a message ' },
 { command: 'Cards', description: 'this is an example of cards', hint: 'Type a message ' },
 { command: 'links', description: 'this is links', hint: 'Type a message ' },
@@ -70,7 +71,7 @@ zoomBot.on('commands', function (e) {
       account_id,
       body: [{type: 'actions', limit:'2', items:[{text: 'update', event_id:'update', event:'sendMsg(\"/weather update\")'},{text: 'delete', event_id:'delete', event:'sendMsg(\"/weather delete\")'}]}, { type: 'message', text:"JSON =", style: {color: '#000080', bold: 'true'} },{ type: 'message', text:myJSON }], header: { text: 'This is an example of buttons' }
     });
-    console.log(myJSON);
+    console.log(e);
 
   }
 
