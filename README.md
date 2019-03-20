@@ -13,12 +13,16 @@ Installation:
 If you haven’t installed NodeJS, please follow the steps mentioned here: https://nodesource.com/blog/installing-nodejs-tutorial-mac-os-x/ .
 
 2.	Verify if Node.js is properly installed:
-a.	To verify that Node.js was installed correctly on your Mac, you can run the following command in your terminal:
+
+      a.	To verify that Node.js was installed correctly on your Mac, you can run the following command in your terminal:
 “$ node -v”
-b.	If Node.js was properly installed, you'll see something close to (but probably not exactly) this:
+
+      b.	If Node.js was properly installed, you'll see something close to (but probably not exactly) this:
 $ node -v // The command we ran - tests the version of Node.js that's currently installed 
 v6.9.4 // The version of Node.js that's installed - v6.9.4 was the most current LTS release at the time of writing.
-c.	Update your npm Version:
+
+
+      c.	Update your npm Version:
 $ sudo npm install npm --global // Update the `npm` CLI client.
 
 3.	Installing Zoom SDK:
