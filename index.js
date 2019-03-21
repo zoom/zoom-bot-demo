@@ -1,3 +1,4 @@
+const config = require('./config');
 var express = require('express');
 let http = require('http');
 var bodyParser = require("body-parser");
@@ -7,15 +8,15 @@ app.use(bodyParser.json());
 
 const { oauth2, client, setting } = require('zoom-bot-sdk');
 
-const to_jid = '8a9e9742c71a4371829d2acc1b24f646@conference.xmpp.zoom.us';//config.to_jid;
-const account_id = 'J5yuBxbFT0iKHvOh1iR3Rg';//config.account_id;
+const to_jid = config.to_jid;
+const account_id = config.account_id;
 
 //setting.setUrl('https://api.zoom.us'); // if you are in projection,not use this.
 
 let oauth2Client = oauth2(
-  'uhdF1HUjSomSeXamTnvQw',//config.clientID, //client id
-  'ufpPgU8dso5SLNtj2BFXY81GisgW2qaL',//config.clientSecret, //client secret
-  'http://002ac087.ngrok.io/oauth',//config.redirect_uri //redirect uri
+  config.clientID, //client id
+  config.clientSecret, //client secret
+  config.redirect_uri //redirect uri
 );
 
 let tokens;
@@ -41,10 +42,10 @@ function refreshTokenIfExpired(tokens){
 
 //create zoomBot
 let zoomBot = client(
-  'uhdF1HUjSomSeXamTnvQw',//config.clientID,//client id
-  'B1pSdOz4Q9SRYjTmj6xlLg',//config.verifyCode,//verify code
-  'v1tq9jtpkvr8gy9frjb6weqw@xmpp.zoom.us',//config.botJid,//jid
-  'ZoomTestBot2').commands([{ command: 'create', description: 'create a new meeting', hint: ' <userName> <date>' },
+  config.clientID,//client id
+  config.verifyCode,//verify code
+  config.botJid,//jid
+  config.botName).commands([{ command: 'create', description: 'create a new meeting', hint: ' <userName> <date>' },
 { command: 'buttons', description: 'this is an example of buttons', hint: 'Type a message ' },
 { command: 'Cards', description: 'this is an example of cards', hint: 'Type a message ' },
 { command: 'links', description: 'this is links', hint: 'Type a message ' },
@@ -140,7 +141,7 @@ zoomBot.on('commands', function (e) {
     console.log("we are within fields");
 
 
-    reqBody = [{type: 'fields', items:[{key:'India', value: 'IND'}, { key:'United States', value: 'USA'}]}];
+    reqBody = [{type: 'fields', items:[{key:'Zoom Video Communications', value: 'Zoom'}, { key:'San Jose, California', value: 'SJC'}]}];
     reqHeader = { text: `This is an example of Form fields` };
 
     reqBody1 = { type: 'message', text:myJSON };

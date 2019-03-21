@@ -16,9 +16,15 @@ const config = {
 
 	},
 	production:{
-		clientID : 'cL1ooSNoQxWpUkyPHll3dg',
-		clientSecret : 'Ox23DK8FOVLNKEcYnwnO0WTXYuJVAzyC',
-		redirectUrl: 'http://localhost:3003/oauth/'
+		clientID : '1A6aLZlGRdyDFilNPJ32oQ',
+		clientSecret : 'E1zUdKvNGOEqqoKFnCiqpexcCdpnBqz1',
+		redirectUrl : 'http://002ac087.ngrok.io/oauth',
+		redirect_uri: 'http://002ac087.ngrok.io/oauth',
+		verifyCode : 'xNH5cu93SIqfMNW1YSyeTw',
+		botJid : 'v1dxzr-odxqa-7olovln_izq@xmpp.zoom.us',
+		botName : 'testnewbot',
+		to_jid : '44736754f13945c4801d32155c360846@conference.xmpp.zoom.us',
+		account_id : 'UZtZ7oAkSLiY5cSYx2KbTA',
 	}
 };
 
