@@ -15,7 +15,7 @@ const account_id = 'J5yuBxbFT0iKHvOh1iR3Rg';//config.account_id;
 let oauth2Client = oauth2(
   'uhdF1HUjSomSeXamTnvQw',//config.clientID, //client id
   'ufpPgU8dso5SLNtj2BFXY81GisgW2qaL',//config.clientSecret, //client secret
-  'http://e28fa870.ngrok.io/oauth',//config.redirect_uri //redirect uri
+  'http://002ac087.ngrok.io/oauth',//config.redirect_uri //redirect uri
 );
 
 let tokens;
@@ -43,7 +43,7 @@ function refreshTokenIfExpired(tokens){
 let zoomBot = client(
   'uhdF1HUjSomSeXamTnvQw',//config.clientID,//client id
   'B1pSdOz4Q9SRYjTmj6xlLg',//config.verifyCode,//verify code
-  'v13-ohvxvbtr6uljiqmcji2a@xmpp.zoom.us',//config.botJid,//jid
+  'v1tq9jtpkvr8gy9frjb6weqw@xmpp.zoom.us',//config.botJid,//jid
   'ZoomTestBot2').commands([{ command: 'create', description: 'create a new meeting', hint: ' <userName> <date>' },
 { command: 'buttons', description: 'this is an example of buttons', hint: 'Type a message ' },
 { command: 'Cards', description: 'this is an example of cards', hint: 'Type a message ' },
@@ -79,18 +79,24 @@ zoomBot.on('commands', function (e) {
     let foxApp = zoomBot.create({ auth: oauth2Client.connect() });
     //replay a message to zoom clinet
 
-    reqBody =  [{ type: 'message', text },{ type: 'message', text:"JSON =", style: {color: '#000080', bold: 'true'} },{ type: 'message', text:myJSON }];
+    reqBody =  [{ type: 'message', text }];
     reqHeader= { text: `reply from ${name}` };
+
+    reqBody1 = { type: 'message', text:myJSON };
+    reqHeader1 = { text: 'Here is JSON to create Message'};
 
     console.log("JSON =",myJSON);
   }
   // else if(command==='delete'){//other command logic}
-  else if (command === "buttons") {
+  else if (command === "actions") {
 
-    console.log("we are within buttons");
+    console.log("we are within Actions");
 
-  reqBody =  [{type: 'actions', limit:'2', items:[{text: 'update', event_id:'update', event:'sendMsg(\"/weather update\")'},{text: 'delete', event_id:'delete', event:'sendMsg(\"/weather delete\")'}]}, { type: 'message', text:"JSON =", style: {color: '#000080', bold: 'true'} },{ type: 'message', text:myJSON }];
-  reqHeader = { text: 'This is an example of buttons' };
+  reqBody =  [{type: 'actions', limit:'2', items:[{text: 'update', event_id:'update', event:'sendMsg(\"/weather update\")'},{text: 'delete', event_id:'delete', event:'sendMsg(\"/weather delete\")'}]}];
+  reqHeader = { text: 'This is an example of Actions' };
+
+  reqBody1 = { type: 'message', text:myJSON };
+  reqHeader1 = { text: 'Here is JSON for Actions'};
 
 }
 
@@ -102,8 +108,11 @@ zoomBot.on('commands', function (e) {
     //console.log(JSON.stringify(body));
 
 
-  reqBody = [{ type: 'message', text: 'this is an example of cards', link: 'www.zoom.us'},{ type: 'message', text:"JSON =", style: {color: '#000080', bold: 'true'} },{ type: 'message', text:myJSON }];
+  reqBody = [{ type: 'message', text: 'this is an example of cards', link: 'www.zoom.us'}];
   reqHeader = { text: `reply from ${name}` };
+
+  reqBody1 = { type: 'message', text:myJSON };
+  reqHeader1 = { text: 'Here is JSON for Cards'};
 
   }
 
@@ -115,21 +124,27 @@ zoomBot.on('commands', function (e) {
     console.log("we are in links");
 
 
-      reqBody = [{ type: 'message', text: 'Zoom Video', link: 'www.zoom.us'}, { type: 'message', text:"JSON =", style: {color: '#000080', bold: 'true'} },{ type: 'message', text:myJSON }];
+      reqBody = [{ type: 'message', text: 'Zoom Video', link: 'www.zoom.us'}];
       reqHeader ={ text: `This is an example of links` };
+
+      reqBody1 = { type: 'message', text:myJSON };
+      reqHeader1 = { text: 'Here is JSON for Links'};
 
   }
 
 
   //Configuring the "form" command. This command displays an example using Form.
 
-  else if (command === "form") {
+  else if (command === "fields") {
 
-    console.log("we are within forms");
+    console.log("we are within fields");
 
 
-    reqBody = [{type: 'fields', items:[{key:'India', value: 'IND'}, { key:'United States', value: 'USA'}]},{ type: 'message', text:"JSON =", style: {color: '#000080', bold: 'true'} }, { type: 'message', text:myJSON }];
+    reqBody = [{type: 'fields', items:[{key:'India', value: 'IND'}, { key:'United States', value: 'USA'}]}];
     reqHeader = { text: `This is an example of Form fields` };
+
+    reqBody1 = { type: 'message', text:myJSON };
+    reqHeader1 = { text: 'Here is JSON for Fields'};
 
   }
 
@@ -141,16 +156,22 @@ zoomBot.on('commands', function (e) {
 
     console.log("we are in multiple");
 
-    reqBody = [{ type: 'message', text: 'This is message with a link', link: 'https://zoom.us'}, {type: 'message', text: 'this is a message with style', style: {color: '#ff0000', bold: 'true'}},{ type: 'message', text:"JSON =", style: {color: '#000080', bold: 'true'} }, { type: 'message', text:myJSON }];
+    reqBody = [{ type: 'message', text: 'This is message with a link', link: 'https://zoom.us'}, {type: 'message', text: 'this is a message with style', style: {color: '#ff0000', bold: 'true'}}];
     reqHeader = { text: `This is an example of multiple messages` };
+
+    reqBody1 = { type: 'message', text:myJSON };
+    reqHeader1 = { text: 'Here is JSON for Multiple Messages'};
 
 
   }
 
   else {
     console.log("you are wrong ");
-    reqBody = [{ type: 'message', text: 'You typed a wrong command'}, { type: 'message', text:"JSON =", style: {color: '#000080', bold: 'true'} },{ type: 'message', text:myJSON }];
+    reqBody = [{ type: 'message', text: 'You typed a wrong command'}];
     reqHeader = { text: `Your Life is a lie` };
+
+    reqBody1 = { type: 'message', text:myJSON };
+    reqHeader1 = { text: 'Here is JSON, Even though your life is a lie'};
   }
 
   foxApp.sendMessage({
@@ -158,6 +179,21 @@ zoomBot.on('commands', function (e) {
     account_id,
     body: reqBody,
     header: reqHeader
+  }).then(function (s){
+    console.log(s);
+  }, function (e){
+    console.log(e);
+  });
+
+  foxApp.sendMessage({
+    to_jid,
+    account_id,
+    body: reqBody1,
+    header: reqHeader1
+  }).then(function (s){
+    console.log(s);
+  }, function (e){
+    console.log(e);
   });
   console.log(myJSON);
 
