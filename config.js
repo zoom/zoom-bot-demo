@@ -18,8 +18,8 @@ const config = {
 	production:{
 		clientID : '1A6aLZlGRdyDFilNPJ32oQ',
 		clientSecret : 'E1zUdKvNGOEqqoKFnCiqpexcCdpnBqz1',
-		redirectUrl : 'http://002ac087.ngrok.io/oauth',
-		redirect_uri: 'http://002ac087.ngrok.io/oauth',
+		redirectUrl : 'http://db1fc3ac.ngrok.io/oauth',
+		redirect_uri: 'http://db1fc3ac.ngrok.io/oauth',
 		verifyCode : 'xNH5cu93SIqfMNW1YSyeTw',
 		botJid : 'v1dxzr-odxqa-7olovln_izq@xmpp.zoom.us',
 		botName : 'testnewbot',
