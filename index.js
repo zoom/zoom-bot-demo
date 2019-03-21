@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 
 const { oauth2, client, setting } = require('zoom-bot-sdk');
 
-const to_jid = config.to_jid;
+const to_jid = config.tojid;
 const account_id = config.account_id;
 
 //setting.setUrl('https://api.zoom.us'); // if you are in projection,not use this.

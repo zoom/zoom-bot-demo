@@ -24,6 +24,7 @@ const config = {
 		botJid : 'v1dxzr-odxqa-7olovln_izq@xmpp.zoom.us',
 		botName : 'testnewbot',
 		to_jid : '44736754f13945c4801d32155c360846@conference.xmpp.zoom.us',
+		toJid : '44736754f13945c4801d32155c360846@conference.xmpp.zoom.us',
 		account_id : 'UZtZ7oAkSLiY5cSYx2KbTA',
 	}
 };
