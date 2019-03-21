@@ -45,12 +45,12 @@ let zoomBot = client(
   config.clientID,//client id
   config.verifyCode,//verify code
   config.botJid,//jid
-  config.botName).commands([{ command: 'Create :', hint: 'This command allows you to create a new message', description: 'name | message | Date ' },
-{ command: 'Actions :', hint: 'This command will display an example of actions', description: 'Two Buttons' },
-{ command: 'Cards :', hint: 'This command will display an example of cards', description: 'Rich messages with links' },
-{ command: 'Links :', hint: 'This command will display an example of links', description: 'Rich message with links' },
-{ command: 'Fields :', hint: 'This command will display an example of fields', description: 'Shows two fields ' },
-{ command: 'Multiple :', hint: 'This command will display an example of multiple messages', description: 'For now a message with link and then a message with style' }]).defaultAuth(oauth2Client.connect());
+  config.botName).commands([{ command: 'Create :', hint: 'This command allows you to create a new message', description: 'To create a new message, type "create", "message name", "date"'},
+{ command: 'Actions :', hint: 'This command will display an example of actions', description: 'When you enter the "Actions" command, the bot displays two buttons' },
+{ command: 'Cards :', hint: 'This command will display an example of cards', description: 'When you enter this command you will see an example with clickable links' },
+{ command: 'Links :', hint: 'This command will display an example of links', description: 'When you enter this command you will see an example with clickable links' },
+{ command: 'Fields :', hint: 'This command will display an example of fields', description: 'When you enter this command you will see an example with two fields ' },
+{ command: 'Multiple :', hint: 'This command will display an example of multiple messages', description: 'When you enter this command you will see an example with a link and then a message with style' }]).defaultAuth(oauth2Client.connect());
 
 
 
@@ -80,8 +80,8 @@ zoomBot.on('commands', function (e) {
     let foxApp = zoomBot.create({ auth: oauth2Client.connect() });
     //replay a message to zoom clinet
 
-    reqBody =  [{ type: 'message', text }];
-    reqHeader= { text: `reply from ${name}` };
+    reqBody =  { type: 'message',text};
+    reqHeader= { text: `reply from ${name}`};
 
     reqBody1 = { type: 'message', text:myJSON };
     reqHeader1 = { text: 'Here is JSON to create Message'};
