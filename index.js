@@ -45,12 +45,12 @@ let zoomBot = client(
   config.clientID,//client id
   config.verifyCode,//verify code
   config.botJid,//jid
-  config.botName).commands([{ command: 'create', description: 'create a new meeting', hint: ' <userName> <date>' },
-{ command: 'buttons', description: 'this is an example of buttons', hint: 'Type a message ' },
-{ command: 'Cards', description: 'this is an example of cards', hint: 'Type a message ' },
-{ command: 'links', description: 'this is links', hint: 'Type a message ' },
-{ command: 'form', description: 'this is form', hint: 'Type a message ' },
-{ command: 'multiple', description: 'this is an example of multiple messages', hint: 'Type a message ' }]).defaultAuth(oauth2Client.connect());
+  config.botName).commands([{ command: 'Create :', hint: 'This command allows you to create a new message', description: 'name | message | Date ' },
+{ command: 'Actions :', hint: 'This command will display an example of actions', description: 'Two Buttons' },
+{ command: 'Cards :', hint: 'This command will display an example of cards', description: 'Rich messages with links' },
+{ command: 'Links :', hint: 'This command will display an example of links', description: 'Rich message with links' },
+{ command: 'Fields :', hint: 'This command will display an example of fields', description: 'Shows two fields ' },
+{ command: 'Multiple :', hint: 'This command will display an example of multiple messages', description: 'For now a message with link and then a message with style' }]).defaultAuth(oauth2Client.connect());
 
 
 
