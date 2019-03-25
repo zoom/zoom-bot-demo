@@ -16,16 +16,16 @@ const config = {
 
 	},
 	production:{
-		clientID : '1A6aLZlGRdyDFilNPJ32oQ',
-		clientSecret : 'E1zUdKvNGOEqqoKFnCiqpexcCdpnBqz1',
-		redirectUrl : 'http://db1fc3ac.ngrok.io/oauth',
-		redirect_uri: 'http://db1fc3ac.ngrok.io/oauth',
-		verifyCode : 'xNH5cu93SIqfMNW1YSyeTw',
-		botJid : 'v1dxzr-odxqa-7olovln_izq@xmpp.zoom.us',
-		botName : 'testnewbot',
-		to_jid : '44736754f13945c4801d32155c360846@conference.xmpp.zoom.us',
-		toJid : '44736754f13945c4801d32155c360846@conference.xmpp.zoom.us',
-		account_id : 'UZtZ7oAkSLiY5cSYx2KbTA',
+		clientID : 'uhdF1HUjSomSeXamTnvQw',
+		clientSecret : 'xR0Whum1uZhZfWq0GpviuNdBuRB3SR1z',
+		redirectUrl : 'http://bdb2e2c7.ngrok.io/oauth',
+		redirect_uri: 'http://bdb2e2c7.ngrok.io/oauth',
+		verifyCode : 'imnnhR3nTdKE6-hjJbKhOg',
+		botJid : 'v1tq9jtpkvr8gy9frjb6weqw@xmpp.zoom.us',
+		botName : 'ZoomTestBot2',
+		to_jid : '8a9e9742c71a4371829d2acc1b24f646@conference.xmpp.zoom.us',
+		toJid : '8a9e9742c71a4371829d2acc1b24f646@conference.xmpp.zoom.us',
+		account_id : 'jQfUT1woQra0opXcYeanFQ',
 	}
 };
 
