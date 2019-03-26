@@ -53,7 +53,7 @@ let zoomBot = client(
   config.botName).commands([{ command: 'Actions :', description: 'When you enter the "Actions" command, the bot displays two buttons, \nSyntax: actions "title" "button1" "button2"  ' },
 { command: 'Links :', description: 'When you enter this command you will see an example with clickable links, \nSyntax: links "title" "text" "link"' },
 { command: 'Fields :',  description: 'When you enter this command you will see an example with two fields, \nSyntax: fields "title" "key 1" "value 1" "key 2" "value 2" ' },
-{ command: 'Cards :',  description: 'When you enter this command you will see three types of examples: \n - a simple message, \n - a message with a clickable link and  \n - a message with style, \nSyntax: cards "title" "text for simple message" "text for link" "link" "text for style"' }]).defaultAuth(oauth2Client.connect());
+{ command: 'Cards :',  description: 'When you enter this command you will see three types of examples: \n - a simple message, \n - a message with a clickable link and  \n - a message with style, \nSyntax: cards "title" "text for simple message" "text for link" "link" "text for style" "color in hex format", "Value for Bold, i.e. True / False","Value for Italics, i.e. True / False"' }]).defaultAuth(oauth2Client.connect());
 
 
 
@@ -157,13 +157,15 @@ zoomBot.on('commands', function (e) {
     console.log("we are in multiple");
 
     let text = type === 'group' ? `Your Title is ${data[0]}` : `Your Title is ${data[0]}`;
-    let text1 = type === 'group' ? `${data[1]}` : `${data[1]}`;
-    let text2 = type === 'group' ? `Your message is ${data[2]}, and your link is ${data[3]}` : `Your message is ${data[2]}, and your link is ${data[3]}`;
+    let text1 = type === 'group' ? `Your Simple message is "${data[1]}"` : `Your Simple message is "${data[1]}"`;
+    let text2 = type === 'group' ? `Your message is "${data[2]}", and your link is "${data[3]}"` : `Your message is "${data[2]}", and your link is "${data[3]}"`;
     let text3 = type === 'group' ? `${data[3]}` : `${data[3]}`;
+    let text5 = type === 'group' ? `${data[5]}` : `${data[5]}`;
     let text4 = type === 'group' ? `${data[4]}` : `${data[4]}`;
+    let text6 = type === 'group' ? `${data[6]}` : `${data[6]}`;
+    let text7 = type === 'group' ? `${data[7]}` : `${data[7]}`;
 
-
-    reqBody = [{ type: 'message', text: text1}, { type: 'message', text: text2, link: text3}, {type: 'message', text: text4, style: {color: '#ff0000', bold: 'true'}}];
+    reqBody = [{ type: 'message', text: text1}, { type: 'message', text: text2, link: text3}, {type: 'message', text: text4, style: {color: `${text5}`, bold: text6, italic: text7}}];
     reqHeader = { text: text };
 
     reqBody1 = { type: 'message', text:myJSON };
@@ -174,7 +176,8 @@ zoomBot.on('commands', function (e) {
 
   else {
     console.log("you are wrong ");
-    reqBody = [{ type: 'message', text: 'You typed a wrong command'}];
+    let text = type === 'group' ? `Your Command "${command}" is incorrect, so your data, which is "${data}", is also incorrect, type "help" because you need it badly` : `Your Command "${command}" is incorrect, so your data, which is "${data}", is also incorrect, type "help" because you need it badly`;
+    reqBody = [{ type: 'message', text: text}];
     reqHeader = { text: `Your Life is a lie and doesn't have any titles` };
 
     reqBody1 = { type: 'message', text:myJSON };
