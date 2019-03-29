@@ -4,7 +4,6 @@ let http = require('http');
 var bodyParser = require("body-parser");
 var readline = require('readline-sync');
 
-
 let app = express();
 //app.use(express.static('./test'));
 app.use(bodyParser.json());
@@ -60,15 +59,10 @@ let zoomBot = client(
 
 zoomBot.on('commands', function (e) {
   let { payload, data, type, command, message } = e;//origin message from IM is message
-  //let {command,payload,message,type,event} = newJSON;
   let { toJid: to_jid, accountId: account_id, name } = payload;
 
-  //let { body, headers } = abc;
-
+//  let {data, payload} = abc;
   var myJSON = JSON.stringify(e);
-//  var myJSON2 = JSON.stringify(abc);
-
-  //var myJSON1 = JSON.stringify(newJSON);
 
   //refreshTokenIfExpired(tokens);
   oauth2Client.on('tokens',function(tokens2){
@@ -90,6 +84,7 @@ zoomBot.on('commands', function (e) {
  if (command === "actions") {
 
     console.log("we are within Actions");
+  //  console.log(req);
 
 
   let text = type === 'group' ? `Your Title is ${data[0]}` : `Your Title is ${data[0]}`;
@@ -111,6 +106,7 @@ zoomBot.on('commands', function (e) {
   reqHeader1 = { text: 'Here is JSON for Actions'};
 }
 
+//console.log(payload);
 }
 
 /*else if (command === "simple") {
@@ -198,6 +194,9 @@ else {
     if (data.length == 0){
       reqBody = [{ type: 'message', text: "www.zoom.us", link: "www.zoom.us"}];
       reqHeader ={ text: "Links" };
+
+      reqBody1 = { type: 'message', text:myJSON };
+      reqHeader1 = { text: 'Links'};
     }
 else {
       reqBody = [{ type: 'message', text: text1, link: text2}];
@@ -295,7 +294,7 @@ else{
   }).then(function (s){
     console.log(s);
   }, function (e){
-    console.log(e);
+    //console.log(e);
   });
 
   foxApp.sendMessage({
@@ -308,41 +307,64 @@ else{
   }, function (e){
     console.log(e);
   });
-  console.log(myJSON);
+  //console.log(myJSON);
 
 });
 
 //);
-app.all('/message',function (req, res) {//get message api
+/* app.all('/message',function (req, res) {//get message api
   try{
     let { body, headers } = req;
   //i will add help,
   zoomBot.handle({ body, headers }, function (err) {
     if (err) { console.log(err, "this is an error with /message"); }
     res.send('ok');
+    var newJSON = JSON.stringify(body);
+    console.log(newJSON, "we are here");
   });
 } catch (e){
   res.send(e);
 }
-});
+}); */
 
 app.all('/message', async function (req, res) {//get message api
+
+  console.log(req.body);
+  /*var newJSON = JSON.stringify(req.body);
+  foxApp.sendMessage({
+    to_jid,
+    account_id,
+    body: {type:'message',text:req.body}, header: { text: 'title'}
+  }).then(function (s){
+    console.log(s);
+  }, function (e){
+    console.log(e);
+  });*/
   try{
     let { body, headers } = req;
   //i will add help,
   let info=zoomBot.parse({body,headers});
+  console.log(info,9)
   if(info.status===true){
     let {command,payload,message,type,event}=info.data;
     try{
   zoomBot.handle({ body, headers }, function (err) {
     if (err) { console.log(err, "this is an error with /message"); }
     res.send('ok');
+  //  var newJSON = JSON.stringify(body);
+  //  console.log(newJSON, "we are here");
   });
 } catch (e){
+  console.log(e,6);
   res.send(e);
 }
 }
+else{
+  console.log(info.errorMessage);
+}
+
 } catch (e){ //
+  console.log(e,56);
   res.send(e);
 }
 });
