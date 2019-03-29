@@ -18,8 +18,8 @@ const config = {
 	production:{
 		clientID : 'uhdF1HUjSomSeXamTnvQw',
 		clientSecret : 'xR0Whum1uZhZfWq0GpviuNdBuRB3SR1z',
-		redirectUrl : 'http://ed51b5f0.ngrok.io/oauth',
-		redirect_uri: 'http://ed51b5f0.ngrok.io/oauth',
+		redirectUrl : 'http://62ba2cf6.ngrok.io/oauth',
+		redirect_uri: 'http://62ba2cf6.ngrok.io/oauth',
 		verifyCode : 'imnnhR3nTdKE6-hjJbKhOg',
 		botJid : 'v1tq9jtpkvr8gy9frjb6weqw@xmpp.zoom.us',
 		botName : 'ZoomTestBot2',
