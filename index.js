@@ -203,7 +203,7 @@ zoomBot.on('commands', function (e)
         {
           let text = type === 'group' ? `Your Command "${command}" is incorrect, so your data, which is "${data}", is also incorrect, type "help" because you need it badly` : `Your Command "${command}" is incorrect, so your data, which is "${data}", is also incorrect, type "help" because you need it badly`;
           reqBody = [{ type: 'message', text: text}];
-          reqHeader = { text: `Your Life is a lie and doesn't have any titles` };
+          reqHeader = { text: `You typed a wrong command` };
         }
 
     //This sends a message from the bot to the user
