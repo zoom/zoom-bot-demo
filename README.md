@@ -1,6 +1,6 @@
 QuickStart:
 
-1. Clone the GitHub repo https://github.com/ojusave/Zoom-Demo
+1. Clone the GitHub repo https://github.com/zoom/zoom-bot-demo
 
 2. If you are not using the ‘Dev’ environment, comment out the following line: setting.setUrl('https://dev.zoom.us')
 
