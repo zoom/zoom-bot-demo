@@ -7,30 +7,30 @@ QuickStart:
 3. Add the following values in config.js:
 Client ID, Client Secret, Redirect URI, Account ID, Channel ID, and BotJID
 
-  a. You can find your Client ID and Client Secret, by going to Marketplace > Manage > “Your Bot” > App Credentials. Make sure that you are using the correct credentials (i.e. Development or Production). 
+      a. You can find your Client ID and Client Secret, by going to Marketplace > Manage > “Your Bot” > App Credentials. Make sure that you are using the correct credentials (i.e. Development or Production). 
 
-  b. At the same time, make sure that your redirect URI is similar to the one in your marketplace bot account. If you do not have a redirect URI, we recommend using ngrok.
+      b. At the same time, make sure that your redirect URI is similar to the one in your marketplace bot account. If you do not have a redirect URI, we recommend using ngrok.
 
-  Please refer to the following screenshot:
+      Please refer to the following screenshot:
 
-  ![alt text](http://s3.amazonaws.com/user-content.stoplight.io/14683/1554148180886)
-
-
-  c. To get your Account ID, send the following request:
-  https://api.zoom.us/v2/users
-
-  d. To get your Channel ID, send the following request: 
-  https://api.zoom.us/v2/im/users/{UserID}/channels
-
-  Once you receive a response, your 'channel id' would be the value received for the 'group_jid' field.
-  
-  You can consider using Postman to make requests to our API’s. For more information, please visit here.
+      ![alt text](http://s3.amazonaws.com/user-content.stoplight.io/14683/1554148180886)
 
 
-  e. The verify code (Verification Token) and BotJID can be found, in the features section of your BOT. 
+      c. To get your Account ID, send the following request:
+      https://api.zoom.us/v2/users
 
-  Please refer to the following section for more details:
-  ![alt text](http://s3.amazonaws.com/user-content.stoplight.io/14683/1554149625443)
+      d. To get your Channel ID, send the following request: 
+      https://api.zoom.us/v2/im/users/{UserID}/channels
+
+      Once you receive a response, your 'channel id' would be the value received for the 'group_jid' field.
+
+      You can consider using Postman to make requests to our API’s. For more information, please visit here.
+
+
+      e. The verify code (Verification Token) and BotJID can be found, in the features section of your BOT. 
+
+      Please refer to the following section for more details:
+      ![alt text](http://s3.amazonaws.com/user-content.stoplight.io/14683/1554149625443)
 
 4. Go to your Local terminal, and run the following command:
 “node index.js”
