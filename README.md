@@ -7,29 +7,27 @@ QuickStart:
 3. Add the following values in config.js:
 Client ID, Client Secret, Redirect URI, Account ID, Channel ID, and BotJID
 
-  You can find your Client ID and Client Secret, by going to Marketplace > Manage > “Your Bot” > App Credentials. Make sure that you are using the correct credentials (i.e. Development or Production). 
+  a. You can find your Client ID and Client Secret, by going to Marketplace > Manage > “Your Bot” > App Credentials. Make sure that you are using the correct credentials (i.e. Development or Production). 
 
-  At the same time, make sure that your redirect URI is similar to the one in your marketplace bot account. If you do not have a redirect URI, we recommend using ngrok.
+  b. At the same time, make sure that your redirect URI is similar to the one in your marketplace bot account. If you do not have a redirect URI, we recommend using ngrok.
 
   Please refer to the following screenshot:
 
   ![alt text](http://s3.amazonaws.com/user-content.stoplight.io/14683/1554148180886)
 
 
-  To get your Account ID, send the following request:
+  c. To get your Account ID, send the following request:
   https://api.zoom.us/v2/users
 
-  To get your Channel ID, send the following request: 
+  d. To get your Channel ID, send the following request: 
   https://api.zoom.us/v2/im/users/{UserID}/channels
 
-  Once you receive a response, which would be like: 
-  {}
-  , you would be the value
-
+  Once you receive a response, your 'channel id' would be the value received for the 'group_jid' field.
+  
   You can consider using Postman to make requests to our API’s. For more information, please visit here.
 
 
-  The verify code (Verification Token) and BotJID can be found, in the features section of your BOT. 
+  e. The verify code (Verification Token) and BotJID can be found, in the features section of your BOT. 
 
   Please refer to the following section for more details:
   ![alt text](http://s3.amazonaws.com/user-content.stoplight.io/14683/1554149625443)
@@ -40,9 +38,9 @@ Client ID, Client Secret, Redirect URI, Account ID, Channel ID, and BotJID
 
 
 5. 
-  a. If you are using the Development environment, you can generate the OAuth token to be used locally by clicking the “Test” button, in the Local Test section. You can also choose to “Generate” the testable url and then paste the URL in your browser to generate the OAuth Token.
+      a. If you are using the Development environment, you can generate the OAuth token to be used locally by clicking the “Test” button, in the Local Test section. You can also choose to “Generate” the testable url and then paste the URL in your browser to generate the OAuth Token.
 
-  b.	If you are using the Production Credentials, go to the Submit section, and generate a publishable URL. You can use this URL, not only to generate the OAuth Token but also to share an early download link of your application before it goes live.
+      b.	If you are using the Production Credentials, go to the Submit section, and generate a publishable URL. You can use this URL, not only to generate the OAuth Token but also to share an early download link of your application before it goes live.
 
 6. Go to your Zoom Desktop client and then type the following commands: 
 
@@ -70,7 +68,8 @@ When you enter this command, you will see three types of examples:
  - a message with a clickable link and  
  - a message with style
  
-7. You can also customize the Body and Title for your Bot. To know the syntax, type the 'slash command' and then help, or you can refer to this image
-![alt text](http://s3.amazonaws.com/user-content.stoplight.io/14683/1554149750448
+7. You can also customize the Body and Title for your Bot. To know the syntax, type the 'slash command' and then help, or you can refer to this image to know how a help command looks:
+
+![alt text](http://s3.amazonaws.com/user-content.stoplight.io/14683/1554149750448)
 
 For more Information about Zooms Bot and APIs Documentation is available on the Zoom REST API for IM chat
