@@ -1,20 +1,19 @@
-const config = require('./config');
 var express = require('express');
+const config = require('./config'); //values would be derived from config.js
 let http = require('http');
 var bodyParser = require("body-parser");
-var readline = require('readline-sync');
 
 let app = express();
-//app.use(express.static('./test'));
+
 app.use(bodyParser.json());
 
 const { oauth2, client, setting } = require('zoom-bot-sdk');
 
-//const to_jid = config.tojid;
-//const account_id = config.account_id;
+// By Default the SDK uses api.zoom.us, if you are using Dev credentials, uncomment the below line
 
-//setting.setUrl('https://api.zoom.us'); // if you are in projection,not use this.
+//setting.setUrl('https://dev.zoom.us');
 
+//Creating an OAuth2 object with the given configurations, you can find these values in the app that you created in Marketplace,  visit: www.marketplace.zoom.us
 let oauth2Client = oauth2(
   config.clientID, //client id
   config.clientSecret, //client secret
@@ -23,367 +22,266 @@ let oauth2Client = oauth2(
   config.account_id //Account ID
 );
 
-let tokens;
-
-oauth2Client.on('tokens',function(tokens2){
-
-  console.log(tokens2,999)
-
+// Print Tokens, (Optional)
+oauth2Client.on('tokens',function(tokens)
+{
+  console.log(tokens,999)
 })
-function refreshTokenIfExpired(tokens){
-  if(tokens.expires_in <= 0){
-    oauth2Client.on('tokens',function(tokens2){
 
-      tokens = tokens2;
-      console.log ("requesting new token");
-      console.log(tokens2,999);
+//If there is an error print it, (Optional)
+oauth2Client.on("error",(err)=>
+{
+  console.log(e);
+});
 
-    });
-  }
-
-}
-
-
-//create zoomBot
+//creating a zoomBot instance to configure the Help command, you can find these values in your application in Marketplace, visit: markeplace.zoom.us
 let zoomBot = client(
-  config.clientID,//client id
-  config.verifyCode,//verify code
-  config.botJid,//jid
-  config.botName).commands([{ command: 'Simple :', description: 'When you enter this command you will see an example with a simple message, \nSyntax: "simple" "text"' },
-{ command: 'Actions :', description: 'When you enter the "Actions" command, the bot displays two buttons, \nSyntax: actions "title" "button1" "button2"  ' },
-{ command: 'Links :', description: 'When you enter this command you will see an example with clickable links, \nSyntax: links "title" "text" "link"' },
-{ command: 'Fields :',  description: 'When you enter this command you will see an example with two fields, \nSyntax: fields "title" "key 1" "value 1" "key 2" "value 2" ' },
-{ command: 'Cards :',  description: 'When you enter this command you will see three types of examples: \n - a simple message, \n - a message with a clickable link and  \n - a message with style, \nSyntax: cards "title" "text for simple message" "text for link" "link" "text for style" "color in hex format", "Value for Bold, i.e. True / False","Value for Italics, i.e. True / False"' }]).defaultAuth(oauth2Client.connect());
+                      config.clientID,//client id
+                      config.verifyCode,//verify code
+                      config.botJid,//jid
+                      config.botName).commands([{ command: 'Simple :', description: 'When you enter this command you will see an example with a simple message, \nSyntax: "simple" "title" "text"' },
+                    { command: 'Actions :', description: 'When you enter the "Actions" command, the bot displays two buttons, \nSyntax: actions "title" "button1" "button2"  ' },
+                    { command: 'Links :', description: 'When you enter this command you will see an example with clickable links, \nSyntax: links "title" "text" "link"' },
+                    { command: 'Fields :',  description: 'When you enter this command you will see an example with two fields, \nSyntax: fields "title" "key 1" "value 1" "key 2" "value 2" ' },
+                    { command: 'Style :', description: 'When you enter this command you will see an example of a message and header with style, \nSyntax: "style" "title" "text"' }
+                    { command: 'Cards :',  description: 'When you enter this command you will see three types of examples: \n - a simple message, \n - a message with a clickable link and  \n - a message with style, \nSyntax: cards "title" "text for simple message" "text for link" "link" "text for style" "color in hex format", "Value for Bold, i.e. True / False","Value for Italics, i.e. True / False"' }]
+                      ).defaultAuth(oauth2Client.connect());
 
 
-
-zoomBot.on('commands', function (e) {
+//This initiates the Zoom Bot
+zoomBot.on('commands', function (e)
+{
   let { payload, data, type, command, message } = e;//origin message from IM is message
   let { toJid: to_jid, accountId: account_id, name } = payload;
 
-//  let {data, payload} = abc;
-  var myJSON = JSON.stringify(e);
+  //Configuring the Actions command, for more information, visit: https://marketplace.zoom.us/docs/guides/guides/building-a-chatbot/Generating-Rich-TextBot-Message-Cards
+  if (command === "actions")
+    {
+      let text = type === 'group' ? `Your Title is ${data[0]}` : `Your Title is ${data[0]}`;
+      let text1 = type === 'group' ? `${data[1]}` : `${data[1]}`;
+      let text2 = type === 'group' ? `${data[2]}` : `${data[2]}`;
 
-  //refreshTokenIfExpired(tokens);
-  oauth2Client.on('tokens',function(tokens2){
+      //If user does not give parameters, send this body and header in message
+      if (data.length == 0)
+        {
+          reqBody =  [{type: 'actions', limit:'2', items:[{text: 'Update', event_id:'update', event:'sendMsg(\"/weather update\")'},{text:'Delete' , event_id:'delete', event:'sendMsg(\"/weather delete\")'}]}];
+          reqHeader = { text: 'Actions'};
+        }
 
-    tokens = tokens2;
-    console.log(tokens2,999);
-
-  });
-
-  oauth2Client.on("error",(err)=>{
-   console.log(e);
-});
-
-
-
-  //var nJSON = function(e);
-
-//console.log(command, text);  // else if(command==='delete'){//other command logic}
- if (command === "actions") {
-
-    console.log("we are within Actions");
-  //  console.log(req);
-
-
-  let text = type === 'group' ? `Your Title is ${data[0]}` : `Your Title is ${data[0]}`;
-  let text1 = type === 'group' ? `${data[1]}` : `${data[1]}`;
-  let text2 = type === 'group' ? `${data[2]}` : `${data[2]}`;
-
-  if (data.length == 0){
-    reqBody =  [{type: 'actions', limit:'2', items:[{text: 'Update', event_id:'update', event:'sendMsg(\"/weather update\")'},{text:'Delete' , event_id:'delete', event:'sendMsg(\"/weather delete\")'}]}];
-    reqHeader = { text: 'Actions'};
-
-    reqBody1 = { type: 'message', text:myJSON };
-    reqHeader1 = { text: 'Here is JSON for Actions'};
-  }
-  else {
-  reqBody =  [{type: 'actions', limit:'2', items:[{text: text1, event_id:'update', event:'sendMsg(\"/weather update\")'},{text:text2 , event_id:'delete', event:'sendMsg(\"/weather delete\")'}]}];
-  reqHeader = { text: text};
-
-  reqBody1 = { type: 'message', text:myJSON };
-  reqHeader1 = { text: 'Here is JSON for Actions'};
-}
-
-//console.log(payload);
-}
-
-/*else if (command === "simple") {
-
-   console.log("this is a simple message");
-
-
-
-
- //let text = type === 'group' ? `Your Title is ${data[0]}` : `Your Title is ${data[0]}`;
- //let text1 = type === 'group' ? `${data}` : `${data}`;
-
- reqbody = { type: 'message', text: 'This is a simple message'}
- reqHeader = { text: 'This is a simple message'};
-
- reqBody1 = { type: 'message', text:myJSON };
- reqHeader1 = { text: 'Here is JSON for Simple Message'};
-
-}*/
-
-
-  //Configuring the "translate" command
-  else if (command === "simple") {
-
-    //console.log("we are in cards");
-    //console.log(JSON.stringify(body));
-    let text = type === 'group' ? `Your Title is ${data[0]}` : `Your Title is ${data[0]}`;
-    let text1 = type === 'group' ? `${data[1]}` : `${data[1]}`;
-  //  let text2 = type === 'group' ? `${data[2]}` : `${data[2]}`;
-
-if(data.length == 0){
-  reqBody = [{ type: 'message', text: 'This is a simple message'}];
-  reqHeader = { text: `Simple Message` };
-
-  reqBody1 = { type: 'message', text:myJSON };
-  reqHeader1 = { text: 'Here is JSON for Simple Message'};
-
-}
-
-else {
-  reqBody = [{ type: 'message', text: text1}];
-  reqHeader = { text: text };
-
-  reqBody1 = { type: 'message', text:myJSON };
-  reqHeader1 = { text: 'Here is JSON for Simple message'};
-}
-}
-
-else if (command === "style") {
-
-  //console.log("we are in cards");
-  //console.log(JSON.stringify(body));
-  let text = type === 'group' ? `Your Title is ${data[0]}` : `Your Title is ${data[0]}`;
-  let text1 = type === 'group' ? `${data[1]}` : `${data[1]}`;
-//  let text2 = type === 'group' ? `${data[2]}` : `${data[2]}`;
-
-if(data.length == 0){
-reqBody = [{type: 'message', text: 'This is a message with style', style: {color: '#ff0000', bold: 'true', italic:'true'}}];
-reqHeader = { text: `Message with Style` , style: {color: '#ffff00', bold: 'true', italic:'true'}};
-
-reqBody1 = { type: 'message', text:myJSON };
-reqHeader1 = { text: 'Here is JSON for Style Message'};
-
-}
-
-else {
-  reqBody = [{type: 'message', text: text1, style: {color: '#ff0000', bold: 'true', italic:'true'}}];
-  reqHeader = { text: text, style: {color: '#ff0000', bold: 'true', italic:'true'}};
-
-  reqBody1 = { type: 'message', text:myJSON };
-  reqHeader1 = { text: 'Here is JSON for Style message'};
-}
-}
-  //Configuring the "link" command. This command displays an example for link.
-
-  else if (command === "links") {
-
-    console.log("we are in links");
-
-
-    let text = type === 'group' ? `Your Title is ${data[0]}` : `Your Title is ${data[0]}`;
-    let text1 = type === 'group' ? `${data[1]}` : `${data[1]}`;
-    let text2 = type === 'group' ? `${data[2]}` : `${data[2]}`;
-
-    if (data.length == 0){
-      reqBody = [{ type: 'message', text: "www.zoom.us", link: "www.zoom.us"}];
-      reqHeader ={ text: "Links" };
-
-      reqBody1 = { type: 'message', text:myJSON };
-      reqHeader1 = { text: 'Links'};
-    }
-else {
-      reqBody = [{ type: 'message', text: text1, link: text2}];
-      reqHeader ={ text: text };
-
-      reqBody1 = { type: 'message', text:myJSON };
-      reqHeader1 = { text: 'Here is JSON for Links'};
-
+      //If user provides parameters send this body and header in message
+      else
+        {
+            reqBody =  [{type: 'actions', limit:'2', items:[{text: text1, event_id:'update', event:'sendMsg(\"/weather update\")'},{text:text2 , event_id:'delete', event:'sendMsg(\"/weather delete\")'}]}];
+            reqHeader = { text: text};
+        }
     }
 
-  }
+  //Configuring the "simple" command
+    else if (command === "simple")
+      {
+        let text = type === 'group' ? `Your Title is ${data[0]}` : `Your Title is ${data[0]}`;
+        let text1 = type === 'group' ? `${data[1]}` : `${data[1]}`;
+
+        //If user does not give parameters, send this body and header in message
+        if(data.length == 0)
+        {
+            reqBody = [{ type: 'message', text: 'This is a simple message'}];
+            reqHeader = { text: `Simple Message` };
+        }
+
+        //If user provides parameters send this body and header in message
+        else
+        {
+            reqBody = [{ type: 'message', text: text1}];
+            reqHeader = { text: text };
+        }
+       }
+
+   //Configuring the "style" command, This command displays a message with a style
+
+   else if (command === "style")
+       {
+         let text = type === 'group' ? `Your Title is ${data[0]}` : `Your Title is ${data[0]}`;
+         let text1 = type === 'group' ? `${data[1]}` : `${data[1]}`;
+
+         //If user does not give parameters, send this body and header in message
+         if(data.length == 0)
+         {
+            reqBody = [{type: 'message', text: 'This is a message with style', style: {color: '#ff0000', bold: 'true', italic:'true'}}];
+            reqHeader = { text: `Message with Style` , style: {color: '#ffff00', bold: 'true', italic:'true'}};
+         }
+
+         //If user provides parameters send this body and header in message
+          else
+          {
+            reqBody = [{type: 'message', text: text1, style: {color: '#ff0000', bold: 'true', italic:'true'}}];
+            reqHeader = { text: text, style: {color: '#ff0000', bold: 'true', italic:'true'}};
+
+          }
+        }
+
+    //Configuring the "link" command. This command displays an example for link.
+
+    else if (command === "links")
+        {
+          let text = type === 'group' ? `Your Title is ${data[0]}` : `Your Title is ${data[0]}`;
+          let text1 = type === 'group' ? `${data[1]}` : `${data[1]}`;
+          let text2 = type === 'group' ? `${data[2]}` : `${data[2]}`;
+
+          //If user does not give parameters, send this body and header in message
+          if(data.length == 0)
+          {
+            reqBody = [{ type: 'message', text: "www.zoom.us", link: "www.zoom.us"}];
+            reqHeader ={ text: "Links" };
+          }
+
+          //If user provides parameters send this body and header in message
+          else
+          {
+            reqBody = [{ type: 'message', text: text1, link: text2}];
+            reqHeader ={ text: text };
+          }
+        }
+
+  //Configuring the "fields" command. This command displays an example using fields.
+
+    else if (command === "fields")
+        {
+
+          let text = type === 'group' ? `Your Title is ${data[0]}` : `Your Title is ${data[0]}`;
+          let text1 = type === 'group' ? `${data[1]}` : `${data[1]}`;
+          let text2 = type === 'group' ? `${data[2]}` : `${data[2]}`;
+          let text3 = type === 'group' ? `${data[3]}` : `${data[3]}`;
+          let text4 = type === 'group' ? `${data[4]}` : `${data[4]}`;
+
+          //If user does not give parameters, send this body and header in message
+          if (data.length == 0)
+          {
+            reqBody = [{type: 'fields', items:[{key:'Zoom', value: 'USA'}, { key:'San Jose', value: 'California'}]}];
+            reqHeader = { text: 'Fields' };
+          }
+
+          //If user provides parameters send this body and header in message
+          else
+          {
+            reqBody = [{type: 'fields', items:[{key:text1, value: text2}, { key:text3, value: text4}]}];
+            reqHeader = { text: text };
+          }
+
+        }
+
+    //Configuring the "cards" command. This command displays an example of cards .
+
+    else if (command === "cards")
+        {
+          let text = type === 'group' ? `Your Title is ${data[0]}` : `Your Title is ${data[0]}`;
+          let text1 = type === 'group' ? `Your Simple message is "${data[1]}"` : `Your Simple message is "${data[1]}"`;
+          let text2 = type === 'group' ? `Your message is "${data[2]}", and your link is "${data[3]}"` : `Your message is "${data[2]}", and your link is "${data[3]}"`;
+          let text3 = type === 'group' ? `${data[3]}` : `${data[3]}`;
+          let text5 = type === 'group' ? `${data[5]}` : `${data[5]}`;
+          let text4 = type === 'group' ? `${data[4]}` : `${data[4]}`;
+          let text6 = type === 'group' ? `${data[6]}` : `${data[6]}`;
+          let text7 = type === 'group' ? `${data[7]}` : `${data[7]}`;
+
+          //If user does not give parameters, send this body and header in message
+          if(data.length == 0)
+          {
+            reqBody = [{ type: 'message', text: 'This is a simple message'}, { type: 'message', text: 'This is message with a link', link: 'https://zoom.us'}, {type: 'message', text: 'This is a message with style', style: {color: '#ff0000', bold: 'true', italic:'true'}}];
+            reqHeader = { text: 'Multiple Messages' };
+          }
+
+          //If user provides parameters send this body and header in message
+          else
+          {
+            reqBody = [{ type: 'message', text: text1}, { type: 'message', text: text2, link: text3}, {type: 'message', text: text4, style: {color: `${text5}`, bold: text6, italic: text7}}];
+            reqHeader = { text: text };
+          }
+        }
+
+    //If you trigger a wrong command send this body and header in message
+    else
+        {
+          let text = type === 'group' ? `Your Command "${command}" is incorrect, so your data, which is "${data}", is also incorrect, type "help" because you need it badly` : `Your Command "${command}" is incorrect, so your data, which is "${data}", is also incorrect, type "help" because you need it badly`;
+          reqBody = [{ type: 'message', text: text}];
+          reqHeader = { text: `Your Life is a lie and doesn't have any titles` };
+        }
+
+    //This sends a message from the bot to the user
+    userApp.sendMessage(
+    {
+      to_jid,
+      account_id,
+      body: reqBody,
+      header: reqHeader
+    }).then(function (s)
+    {
+      console.log(s);
+    });
+  });
 
 
-  //Configuring the "form" command. This command displays an example using Form.
+  //Handling the message event, when the ZoomBot receives the '/' command, this method will be invoked
+  app.all('/message', async function (req, res)
+  {
+    try
+    {
+      let {body, headers} = req;
+      let info=zoomBot.parse({body,headers});
+      if(info.status===true)
+      {
+        let {command,payload,message,type,event}=info.data;
+        try
+        {
+          zoomBot.handle({ body, headers }, function (err)
+          {
+            if (err) { console.log(err, "this is an error with /message");}
+            res.send('ok');
+          });
+        }
 
-  else if (command === "fields") {
+        catch (e)
+        {
+          console.log(e,6);
+          res.send(e);
+        }
+      }
 
-    console.log("we are within fields");
-
-    let text = type === 'group' ? `Your Title is ${data[0]}` : `Your Title is ${data[0]}`;
-    let text1 = type === 'group' ? `${data[1]}` : `${data[1]}`;
-    let text2 = type === 'group' ? `${data[2]}` : `${data[2]}`;
-    let text3 = type === 'group' ? `${data[3]}` : `${data[3]}`;
-    let text4 = type === 'group' ? `${data[4]}` : `${data[4]}`;
-
-    if (data.length == 0){
-      reqBody = [{type: 'fields', items:[{key:'Zoom', value: 'USA'}, { key:'San Jose', value: 'California'}]}];
-      reqHeader = { text: 'Fields' };
-
-      reqBody1 = { type: 'message', text:myJSON };
-      reqHeader1 = { text: 'Here is JSON for Fields'};
+      else
+      {
+        console.log(info.errorMessage);
+      }
     }
-  else {
-
-    reqBody = [{type: 'fields', items:[{key:text1, value: text2}, { key:text3, value: text4}]}];
-    reqHeader = { text: text };
-
-    reqBody1 = { type: 'message', text:myJSON };
-    reqHeader1 = { text: 'Here is JSON for Fields'};
-
-  }
-
-}
-
-  //Configuring the "buttons" command. This command displays an example of buttons command.
-
-  else if (command === "cards") {
-
-    console.log("we are in multiple");
-
-    let text = type === 'group' ? `Your Title is ${data[0]}` : `Your Title is ${data[0]}`;
-    let text1 = type === 'group' ? `Your Simple message is "${data[1]}"` : `Your Simple message is "${data[1]}"`;
-    let text2 = type === 'group' ? `Your message is "${data[2]}", and your link is "${data[3]}"` : `Your message is "${data[2]}", and your link is "${data[3]}"`;
-    let text3 = type === 'group' ? `${data[3]}` : `${data[3]}`;
-    let text5 = type === 'group' ? `${data[5]}` : `${data[5]}`;
-    let text4 = type === 'group' ? `${data[4]}` : `${data[4]}`;
-    let text6 = type === 'group' ? `${data[6]}` : `${data[6]}`;
-    let text7 = type === 'group' ? `${data[7]}` : `${data[7]}`;
-
-if(data.length == 0){
-  reqBody = [{ type: 'message', text: 'This is a simple message'}, { type: 'message', text: 'This is message with a link', link: 'https://zoom.us'}, {type: 'message', text: 'This is a message with style', style: {color: '#ff0000', bold: 'true', italic:'true'}}];
-  reqHeader = { text: 'Multiple Messages' };
-
-  reqBody1 = { type: 'message', text:myJSON };
-  reqHeader1 = { text: 'Here is JSON for Multiple Messages'};
-}
-
-else{
-    reqBody = [{ type: 'message', text: text1}, { type: 'message', text: text2, link: text3}, {type: 'message', text: text4, style: {color: `${text5}`, bold: text6, italic: text7}}];
-    reqHeader = { text: text };
-
-    reqBody1 = { type: 'message', text:myJSON };
-    reqHeader1 = { text: 'Here is JSON for Multiple Messages'};
-
-}
-  }
-
-  else {
-    console.log("you are wrong ");
-    let text = type === 'group' ? `Your Command "${command}" is incorrect, so your data, which is "${data}", is also incorrect, type "help" because you need it badly` : `Your Command "${command}" is incorrect, so your data, which is "${data}", is also incorrect, type "help" because you need it badly`;
-    reqBody = [{ type: 'message', text: text}];
-    reqHeader = { text: `Your Life is a lie and doesn't have any titles` };
-
-    reqBody1 = { type: 'message', text:myJSON };
-    reqHeader1 = { text: 'Here is JSON, Even though your life is a lie'};
-  }
-
-  //let newmsg =(
-
-  foxApp.sendMessage({
-    to_jid,
-    account_id,
-    body: reqBody,
-    header: reqHeader
-  }).then(function (s){
-    console.log(s);
-  }, function (e){
-    //console.log(e);
+    catch (e)
+    {
+      console.log(e,56);
+      res.send(e);
+    }
   });
 
-  foxApp.sendMessage({
-    to_jid,
-    account_id,
-    body: reqBody1,
-    header: reqHeader1
-  }).then(function (s){
-    console.log(s);
-  }, function (e){
-    console.log(e);
+  //Handling OAuth. This function will be invoked when you attempt oAuth
+  app.get('/oauth', async function (req, res)
+  {
+    //console.log("attempting oauth");
+    try
+    {
+      //creating connection by using connectByCode)() method
+      let connection = await oauth2Client.connectByCode(req.query.code);
+
+      //creating a business instance to handle actions e.g. sendMessage
+      userApp = zoomBot.create({ auth: connection });
+      res.send('ok');
+      console.log("oauth complete");
+    }
+    catch (e)
+    {
+      res.send(e);
+    }
   });
-  //console.log(myJSON);
 
-});
-
-//);
-/* app.all('/message',function (req, res) {//get message api
-  try{
-    let { body, headers } = req;
-  //i will add help,
-  zoomBot.handle({ body, headers }, function (err) {
-    if (err) { console.log(err, "this is an error with /message"); }
-    res.send('ok');
-    var newJSON = JSON.stringify(body);
-    console.log(newJSON, "we are here");
-  });
-} catch (e){
-  res.send(e);
-}
-}); */
-
-app.all('/message', async function (req, res) {//get message api
-
-  console.log(req.body);
-  /*var newJSON = JSON.stringify(req.body);
-  foxApp.sendMessage({
-    to_jid,
-    account_id,
-    body: {type:'message',text:req.body}, header: { text: 'title'}
-  }).then(function (s){
-    console.log(s);
-  }, function (e){
-    console.log(e);
-  });*/
-  try{
-    let { body, headers } = req;
-  //i will add help,
-  let info=zoomBot.parse({body,headers});
-  console.log(info,9)
-  if(info.status===true){
-    let {command,payload,message,type,event}=info.data;
-    try{
-  zoomBot.handle({ body, headers }, function (err) {
-    if (err) { console.log(err, "this is an error with /message"); }
-    res.send('ok');
-  //  var newJSON = JSON.stringify(body);
-  //  console.log(newJSON, "we are here");
-  });
-} catch (e){
-  console.log(e,6);
-  res.send(e);
-}
-}
-else{
-  console.log(info.errorMessage);
-}
-
-} catch (e){ //
-  console.log(e,56);
-  res.send(e);
-}
-});
-
-
-app.get('/oauth', async function (req, res) {
-  console.log("attempting oauth");
-  try {
-    let connection = await oauth2Client.connectByCode(req.query.code);
-    //change foxApp to current oauth2 user
-    foxApp = zoomBot.create({ auth: connection });
-    res.send('ok');
-    console.log("oauth complete");
-  } catch (e) {
-    res.send(e);
+  //Creating a HTTP server that listens to server ports and gives a response back to the client
+  var server = http.createServer(app);
+  server.listen(3003, function ()
+  {
+    console.log(`3003 is opened`);
   }
-});
-
-
-
-var server = http.createServer(app);
-server.listen(3003, function () { console.log(`3003 is opened`); });
+);
