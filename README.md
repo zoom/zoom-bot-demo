@@ -64,9 +64,9 @@ When you enter this command, you will see an example with two fields
 
 * *Cards*:
 When you enter this command, you will see three types of examples: 
- - a simple message, 
- - a message with a clickable link and  
- - a message with style
+     - a simple message, 
+     - a message with a clickable link and  
+     - a message with style
  
 7. You can also customize the Body and Title for your Bot. To know the syntax, type the 'slash command' and then help, or you can refer to this image to know how a help command looks:
 
