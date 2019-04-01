@@ -68,7 +68,7 @@ When you enter this command, you will see three types of examples:
      - a message with a clickable link and  
      - a message with style
  
-7. You can also customize the Body and Title for your Bot. To know the syntax, type the 'slash command' and then help, or you can refer to this image to know how a help command looks:
+7. You can also customize the Body and Title for your Bot. To know the syntax for a command, type the 'slash command' and then help, or you can refer to this image which shows an example of the help command as well as the customization syntaxes for the commands:
 
 ![alt text](http://s3.amazonaws.com/user-content.stoplight.io/14683/1554149750448)
 
