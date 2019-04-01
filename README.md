@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 QuickStart
 
 1.	Clone the github repo https://github.com/ojusave/Zoom-Demo
@@ -45,3 +46,7 @@ Client ID, Client Secret, Redirect URI, Account ID, Channel ID and BotJID
 
 6.	For more Information about Zooms Bot and APIs
        Documentation is available on the Zoom REST API for IM chat
+=======
+# zoom-bot-demo
+This is a sample bot created to display the rich message functionality of Zoom.
+>>>>>>> 2a63eb741f6d3484019fb37c8c865919ca721478
