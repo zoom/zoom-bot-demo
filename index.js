@@ -43,7 +43,7 @@ let zoomBot = client(
                     { command: 'Actions :', description: 'When you enter the "Actions" command, the bot displays two buttons, \nSyntax: actions "title" "button1" "button2"  ' },
                     { command: 'Links :', description: 'When you enter this command you will see an example with clickable links, \nSyntax: links "title" "text" "link"' },
                     { command: 'Fields :',  description: 'When you enter this command you will see an example with two fields, \nSyntax: fields "title" "key 1" "value 1" "key 2" "value 2" ' },
-                    { command: 'Style :', description: 'When you enter this command you will see an example of a message and header with style, \nSyntax: "style" "title" "text"' }
+                    { command: 'Style :', description: 'When you enter this command you will see an example of a message and header with style, \nSyntax: "style" "title" "text"' },
                     { command: 'Cards :',  description: 'When you enter this command you will see three types of examples: \n - a simple message, \n - a message with a clickable link and  \n - a message with style, \nSyntax: cards "title" "text for simple message" "text for link" "link" "text for style" "color in hex format", "Value for Bold, i.e. True / False","Value for Italics, i.e. True / False"' }]
                       ).defaultAuth(oauth2Client.connect());
 
