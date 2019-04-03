@@ -31,7 +31,7 @@ oauth2Client.on('tokens',function(tokens)
 //If there is an error print it, (Optional)
 oauth2Client.on("error",(err)=>
 {
-  console.log(e);
+  console.log(err);
 });
 
 //creating a zoomBot instance to configure the Help command, you can find these values in your application in Marketplace, visit: markeplace.zoom.us
