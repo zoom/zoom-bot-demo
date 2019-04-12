@@ -18,8 +18,6 @@ let oauth2Client = oauth2(
   config.clientID, //client id
   config.clientSecret, //client secret
   config.redirect_uri, //redirect uri
-  config.to_jid, //Channel ID
-  config.account_id //Account ID
 );
 
 // Print Tokens, (Optional)
