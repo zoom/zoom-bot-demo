@@ -40,15 +40,15 @@ const zoomBot = client(
     config.verifyCode, // verify code
     config.botJid, // jid
     // eslint-disable-next-line max-len
-    config.botName).commands([{command: 'Simple :', description: 'When you enter this command you will see an example with a simple message, \nSyntax: "simple" "title" "text"'},
+    config.botName).commands([{command: 'simple :', description: 'When you enter this command you will see an example with a simple message, \nSyntax: "simple" "title" "text"'},
   // eslint-disable-next-line max-len
-  {command: 'Actions :', description: 'When you enter the "Actions" command, the bot displays two buttons, \nSyntax: actions "title" "button1" "button2"  '},
+  {command: 'actions :', description: 'When you enter the "Actions" command, the bot displays two buttons, \nSyntax: actions "title" "button1" "button2"  '},
   // eslint-disable-next-line max-len
-  {command: 'Links :', description: 'When you enter this command you will see an example with clickable links, \nSyntax: links "title" "text" "link"'},
+  {command: 'links :', description: 'When you enter this command you will see an example with clickable links, \nSyntax: links "title" "text" "link"'},
   // eslint-disable-next-line max-len
-  {command: 'Fields :', description: 'When you enter this command you will see an example with two fields, \nSyntax: fields "title" "key 1" "value 1" "key 2" "value 2" '},
+  {command: 'fields :', description: 'When you enter this command you will see an example with two fields, \nSyntax: fields "title" "key 1" "value 1" "key 2" "value 2" '},
   // eslint-disable-next-line max-len
-  {command: 'Style :', description: 'When you enter this command you will see an example of a message and header with style, \nSyntax: "style" "title" "text"'},
+  {command: 'style :', description: 'When you enter this command you will see an example of a message and header with style, \nSyntax: "style" "title" "text"'},
   // eslint-disable-next-line max-len
   {command: 'sections :', description: 'When you enter this command you will see an example with sections, i.e Messages and Actions, there is also an example of footer and the sidebar color is Golden'},
   // eslint-disable-next-line max-len
@@ -58,7 +58,7 @@ const zoomBot = client(
   // eslint-disable-next-line max-len
   {command: 'dropdown :', description: 'When you enter this command you will see an example of a dropdown menu with 3 options'},
   // eslint-disable-next-line max-len
-  {command: 'Cards :', description: 'When you enter this command you will see three types of examples: \n - a simple message, \n - a message with a clickable link and  \n - a message with style, \nSyntax: cards "title" "text for simple message" "text for link" "link" "text for style" "color in hex format", "Value for Bold, i.e. True / False","Value for Italics, i.e. True / False"'}]
+  {command: 'cards :', description: 'When you enter this command you will see three types of examples: \n - a simple message, \n - a message with a clickable link and  \n - a message with style, \nSyntax: cards "title" "text for simple message" "text for link" "link" "text for style" "color in hex format", "Value for Bold, i.e. True / False","Value for Italics, i.e. True / False"'}]
 ).defaultAuth(oauth2Client.connect());
 
 
@@ -167,7 +167,7 @@ zoomBot.on('commands', function(e) {
 
     // If user does not give parameters, send this body and header in message
     if (data.length == 0) {
-      reqBody = [{type: 'message', text: 'www.zoom.us', link: 'www.zoom.us'}];
+      reqBody = [{type: 'message', text: 'https://www.zoom.us', link: 'https://www.zoom.us'}];
       reqHeader = {text: 'Links'};
     }
 
@@ -229,7 +229,7 @@ zoomBot.on('commands', function(e) {
       reqBody = [{type: 'message', text: 'This is a simple message'}, {
         type: 'message',
         text: 'This is message with a link',
-        link: 'https://zoom.us',
+        link: 'https://www.zoom.us',
       }, {
         type: 'message',
         text: 'This is a message with style',
@@ -348,7 +348,7 @@ zoomBot.on('commands', function(e) {
             value: 'v3',
           },
           {
-            text: 'option 3',
+            text: 'option 4',
             value: 'v4',
           },
         ],
