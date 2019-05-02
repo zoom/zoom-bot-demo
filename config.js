@@ -6,16 +6,13 @@ const config = {
   development: {
     clientID: '',
     clientSecret: '',
-    redirectUrl: '',
     redirect_uri: '',
     verifyCode: '',
     botJid: '',
     botName: '',
-    to_jid: '',
     account_id: '',
-
-
   },
+
   production: {
     clientID: '',
     clientSecret: '',
