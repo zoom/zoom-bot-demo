@@ -16,7 +16,7 @@ Client ID, Client Secret, Redirect URI, Account ID, Channel ID, and BotJID
       ![alt text](http://s3.amazonaws.com/user-content.stoplight.io/14683/1554148180886)
 
 
-      c. To get your Account ID, use the [retrieve user API](https://marketplace.zoom.us/docs/api-reference/zoom-api/users/users) link:
+      c. To get your Account ID, use the [retrieve user API](https://marketplace.zoom.us/docs/api-reference/zoom-api/users/users):
       https://api.zoom.us/v2/users
 
       d. To get your Channel ID, use the [retrieve channel API](https://marketplace.zoom.us/docs/api-reference/zoom-api/im-chat/getchatchannels):
