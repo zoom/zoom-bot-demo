@@ -2,24 +2,24 @@ QuickStart:
 
 1. Clone the GitHub repo https://github.com/zoom/zoom-bot-demo
 
-2. If you are not using the ‘Dev’ environment, comment out the following line: setting.setUrl('https://dev.zoom.us')
+2. In the line number 14, if you are not using the ‘Dev’ environment, comment out the following line: setting.setUrl('https://dev.zoom.us')
 
 3. Add the following values in config.js:
 Client ID, Client Secret, Redirect URI, Account ID, Channel ID, and BotJID
 
       a. You can find your Client ID and Client Secret, by going to Marketplace > Manage > “Your Bot” > App Credentials. Make sure that you are using the correct credentials (i.e. Development or Production). 
 
-      b. At the same time, make sure that your redirect URI is similar to the one in your marketplace bot account. If you do not have a redirect URI, we recommend using ngrok.
+      b. At the same time, make sure that your redirect URI is similar to the one in your marketplace bot account. If you do not have a redirect URI, we recommend using a localhost tunneling software such as ngrok.io.
 
       Please refer to the following screenshot:
 
       ![alt text](http://s3.amazonaws.com/user-content.stoplight.io/14683/1554148180886)
 
 
-      c. To get your Account ID, send the following request:
+      c. To get your Account ID, use the [retrieve user API](https://marketplace.zoom.us/docs/api-reference/zoom-api/users/users) link:
       https://api.zoom.us/v2/users
 
-      d. To get your Channel ID, send the following request: 
+      d. To get your Channel ID, use the [retrieve channel API](https://marketplace.zoom.us/docs/api-reference/zoom-api/im-chat/getchatchannels):
       https://api.zoom.us/v2/im/users/{UserID}/channels
 
       Once you receive a response, your 'channel id' would be the value received for the 'group_jid' field.
