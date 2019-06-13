@@ -2,9 +2,7 @@ QuickStart:
 
 1. Clone the GitHub repo https://github.com/zoom/zoom-bot-demo
 
-2. In the line number 14, if you are not using the ‘Dev’ environment, comment out the following line: setting.setUrl('https://dev.zoom.us')
-
-3. Add the following values in config.js:
+2. Add the following values in config.js:
 Client ID, Client Secret, Redirect URI, Account ID, Channel ID, and BotJID
 
       a. You can find your Client ID and Client Secret, by going to Marketplace > Manage > “Your Bot” > App Credentials. Make sure that you are using the correct credentials (i.e. Development or Production). 
