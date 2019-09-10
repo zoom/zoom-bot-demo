@@ -1,3 +1,7 @@
+#### THIS REPO IS DEPRECATED
+
+Please visit our [new Chatbot NPM sample app](https://github.com/zoom/vote-chatbot).
+
 QuickStart:
 
 1. Clone the GitHub repo https://github.com/zoom/zoom-bot-demo
